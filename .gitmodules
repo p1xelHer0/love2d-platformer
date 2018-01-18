@@ -1,0 +1,21 @@
+[submodule "lib/bump"]
+	path = lib/bump
+	url = https://github.com/kikito/bump.lua
+[submodule "lib/anim8"]
+	path = lib/anim8
+	url = https://github.com/kikito/anim8
+[submodule "lib/lurker"]
+	path = lib/lurker
+	url = https://github.com/rxi/lurker
+[submodule "lib/lume"]
+	path = lib/lume
+	url = https://github.com/rxi/lume
+[submodule "lib/lovebird"]
+	path = lib/lovebird
+	url = https://github.com/rxi/lovebird
+[submodule "lib/sti"]
+	path = lib/sti
+	url = https://github.com/karai17/Simple-Tiled-Implementation
+[submodule "lib/HooECS"]
+	path = lib/HooECS
+	url = https://github.com/Hooodini/HooECS
