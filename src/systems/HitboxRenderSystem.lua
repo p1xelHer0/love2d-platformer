@@ -7,10 +7,10 @@ end
 function HitboxRenderSystem:draw()
 	for _, entity in pairs(self.targets) do
 		local platform = entity:get('Platform')
-		local physics = entity:get('Physics')
+		local body = entity:get('Body')
 
 		local position = platform.position
-		local hitbox = physics.hitbox
+		local hitbox = body.hitbox
 
 		love.graphics.setColor(255, 60, 60)
 		love.graphics.rectangle('line', position.x, position.y, hitbox.w, hitbox.h)
@@ -21,7 +21,7 @@ end
 function HitboxRenderSystem:requires()
 	return {
 		'Platform',
-		'Physics',
+		'Body',
 	}
 end
 

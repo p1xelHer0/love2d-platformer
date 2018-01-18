@@ -1,10 +1,7 @@
 local Platform = Component.create('Platform')
 
 function Platform:initialize()
-	self.position = {
-		x = 0,
-		y = 0,
-	}
+	self.position = vector(0, 0)
 
 	self.direction = 1
 

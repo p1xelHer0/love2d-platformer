@@ -8,12 +8,12 @@ end
 function PlatformingSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local platform = entity:get('Platform')
-		local physics = entity:get('Physics')
+		local body = entity:get('Body')
 
 		local hitbox, size, velocity =
-			physics.hitbox,
-			physics.size,
-			physics.velocity
+			body.hitbox,
+			body.size,
+			body.velocity
 
 		-- Velocity on the x-axis stops instantly, no acceleraction
 		velocity.x = 0
@@ -41,7 +41,7 @@ function PlatformingSystem:update(dt)
 		-- Entity is affected by gravity constantly
 		-- Clamp velocity to prevent infinite fallig speed
 			velocity.y = clamp(
-				velocity.y + physics.gravity.y * dt, platform.jump_force, platform.fall_speed
+				velocity.y + body.gravity.y * dt, platform.jump_force, platform.fall_speed
 			)
 
 		-- Modifiers to velocity
@@ -63,7 +63,7 @@ end
 
 function PlatformingSystem:requires()
 	return {
-		'Physics',
+		'Body',
 		'Platform',
 	}
 end

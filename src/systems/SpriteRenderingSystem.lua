@@ -9,6 +9,7 @@ function SpriteRenderingSystem:draw()
 	for _, entity in pairs(self.targets) do
 		local platform = entity:get('Platform')
 		local sprite = entity:get('Sprite')
+		local animation = entity:get('Animation')
 
 		local direction, position = platform.direction, platform.position
 
@@ -19,7 +20,8 @@ function SpriteRenderingSystem:draw()
 			platform.crouching,
 			platform.falling
 
-		local image, animations = sprite.image, sprite.animations
+		local image = sprite.image
+		local animations = animation.animations
 
 		-- Sprite is 2px taller than the sprite, offset accordingly
 		local offset = {
@@ -64,6 +66,7 @@ end
 
 function SpriteRenderingSystem:requires()
 	return {
+		'Animation',
 		'Platform',
 		'Sprite',
 	}

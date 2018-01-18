@@ -4,6 +4,8 @@ HooECS.initialize({
 	debug = true,
 })
 
+vector = require('lib.hump.vector')
+
 local push = require('lib.push.push')
 
 -- local scrale = require('lib.scrale')
@@ -13,24 +15,24 @@ local Player = require('src.entities.Player')
 local Level = require('src.entities.Level')
 
 -- Systems
+local AnimationSystem = require('src.systems.AnimationSystem')
 local CollisionSystem = require('src.systems.CollisionSystem')
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local InputSystem = require('src.systems.InputSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local PlatformingSystem = require('src.systems.PlatformingSystem')
-local SpawnSystem = require('src.systems.SpawnSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
-local SpriteSystem = require('src.systems.SpriteSystem')
 
-DEBUG = false
+DEBUG = true
 
 function love.load()
 	love.graphics.setLineStyle('rough')
 	love.graphics.setDefaultFilter('nearest', 'nearest')
-	local game_width, game_height = 512, 288
+	local game_width, game_height = 256, 144
 	local window_width, window_height = love.window.getDesktopDimensions()
+	window_width, window_height = window_width * 0.7, window_height * 0.7
 
-	push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true})
+	push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = false})
 	-- scrale.init(256, 144)
 
 	engine = Engine()
@@ -42,19 +44,12 @@ function love.load()
 	engine:addEntity(level)
 
 	engine:addSystem(PlatformingSystem())
-	engine:addSystem(SpriteSystem())
-	engine:addSystem(SpawnSystem(level))
+	engine:addSystem(SpriteRenderingSystem())
+	if DEBUG then engine:addSystem(HitboxRenderSystem()) end
 	engine:addSystem(CollisionSystem(level))
 
-	engine:addSystem(SpriteRenderingSystem())
+	engine:addSystem(AnimationSystem())
 	engine:addSystem(LevelRenderingSystem())
-
-	if DEBUG then
-		engine:addSystem(HitboxRenderSystem())
-	end
-
-	-- SpawnSystem is only needed for the first frame as of now
-	engine:stopSystem('SpawnSystem')
 end
 
 function love.update(dt)

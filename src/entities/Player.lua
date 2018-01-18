@@ -1,14 +1,16 @@
-local anim8 = require('lib/anim8/anim8')
+local anim8 = require('lib.anim8.anim8')
 
-require('src/components/Input')
-require('src/components/Physics')
-require('src/components/Platform')
-require('src/components/SpawnPoint')
-require('src/components/Sprite')
+require('src.components.Animation')
+require('src.components.Body')
+require('src.components.Input')
+require('src.components.Platform')
+require('src.components.SpawnPoint')
+require('src.components.Sprite')
 
-local Input, Physics, Platform, SpawnPoint, Sprite = Component.load({
+local Animation, Body, Input, Platform, SpawnPoint, Sprite = Component.load({
+	'Animation',
+	'Body',
 	'Input',
-	'Physics',
 	'Platform',
 	'SpawnPoint',
 	'Sprite',
@@ -29,10 +31,11 @@ local function Player()
 		fall = anim8.newAnimation(g('7-1', 1), 0.5),
 	}
 
+	entity:add(Animation(animations))
+	entity:add(Body(size))
 	entity:add(Input())
-	entity:add(Physics(size))
 	entity:add(Platform())
-	entity:add(Sprite(image, animations))
+	entity:add(Sprite(image))
 	entity:add(SpawnPoint('player'))
 
 	return entity

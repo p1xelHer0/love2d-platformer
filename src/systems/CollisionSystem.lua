@@ -7,19 +7,20 @@ local CollisionSystem = class('CollisionSystem', System)
 function CollisionSystem:initialize(level)
 	System.initialize(self)
 	self.bumpWorld = level:get('BumpWorld').world
+	self.tileMap = level:get('TileMap').map
 end
 
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local platform = entity:get('Platform')
-		local physics = entity:get('Physics')
+		local body = entity:get('Body')
 
 		local position, jump_force, fall_speed =
 			platform.position,
 			platform.jump_force,
 			platform.fall_speed
 
-		local hitbox, velocity = physics.hitbox, physics.velocity
+		local hitbox, velocity = body.hitbox, body.velocity
 
 		-- New position according to velocity and delta
 		local newPosition = {
@@ -79,27 +80,32 @@ function CollisionSystem:update(dt)
 end
 
 function CollisionSystem:onAddEntity(entity)
-	if entity:get('SpawnPoint') then
-		return
-	end
 	local platform = entity:get('Platform')
-	local physics = entity:get('Physics')
+	local body = entity:get('Body')
+	local spawn_point = entity:get('SpawnPoint')
 	local position = platform.position
-	local hitbox = physics.hitbox
+	local hitbox = body.hitbox
+
+	if spawn_point then
+		local point = spawn_point.point
+		for _, object in pairs(self.tileMap.objects) do
+			if object.name == point then
+				position.x, position.y = object.x, object.y
+				break
+			end
+		end
+	end
 
 	self.bumpWorld:add(entity, position.x, position.y, hitbox.w, hitbox.h)
 end
 
 function CollisionSystem:onRemoveEntity(entity)
-	if entity:get('SpawnPoint') then
-		return
-	end
 	self.bumpWorld:remove(entity)
 end
 
 function CollisionSystem:requires()
 	return {
-		'Physics',
+		'Body',
 		'Platform',
 	}
 end
