@@ -22,12 +22,12 @@ local SpawnSystem = require('src.systems.SpawnSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 local SpriteSystem = require('src.systems.SpriteSystem')
 
-DEBUG = true
+DEBUG = false
 
 function love.load()
 	love.graphics.setLineStyle('rough')
 	love.graphics.setDefaultFilter('nearest', 'nearest')
-	local game_width, game_height = 256, 144
+	local game_width, game_height = 512, 288
 	local window_width, window_height = love.window.getDesktopDimensions()
 
 	push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true})
