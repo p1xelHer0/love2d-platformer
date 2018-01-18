@@ -4,6 +4,8 @@ HooECS.initialize({
 	debug = true,
 })
 
+local push = require('lib.push.push')
+
 -- local scrale = require('lib.scrale')
 
 -- Entities
@@ -25,6 +27,10 @@ DEBUG = true
 function love.load()
 	love.graphics.setLineStyle('rough')
 	love.graphics.setDefaultFilter('nearest', 'nearest')
+	local game_width, game_height = 256, 144
+	local window_width, window_height = love.window.getDesktopDimensions()
+
+	push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true})
 	-- scrale.init(256, 144)
 
 	engine = Engine()
@@ -59,15 +65,17 @@ end
 
 function love.draw()
 	-- scrale.drawOnCanvas(true)
+	push:start()
 
 	-- love.graphics.setDefaultFilter('nearest', 'nearest')
 	engine:draw()
 
 	-- scrale.draw()
+	push:finish()
 end
 
-function love.keypressed(k)
-	if k == "p" then
-		scrale.toggleFullscreen()
-	end
-end
+-- function love.keypressed(k)
+-- 	if k == "p" then
+-- 		scrale.toggleFullscreen()
+-- 	end
+-- end
