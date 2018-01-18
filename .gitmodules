@@ -22,3 +22,6 @@
 [submodule "lib/Simple-Tiled-Implementation"]
 	path = lib/sti/Simple-Tiled-Implementation
 	url = https://github.com/karai17/Simple-Tiled-Implementation
+[submodule "sti"]
+	path = lib/sti
+	url = https://github.com/karai17/Simple-Tiled-Implementation
