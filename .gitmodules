@@ -1,6 +1,3 @@
-[submodule "lib/bump"]
-	path = lib/bump
-	url = https://github.com/kikito/bump.lua
 [submodule "lib/anim8"]
 	path = lib/anim8
 	url = https://github.com/kikito/anim8
@@ -19,3 +16,9 @@
 [submodule "lib/HooECS"]
 	path = lib/HooECS
 	url = https://github.com/Hooodini/HooECS
+[submodule "lib/push"]
+	path = lib/push
+	url = https://github.com/Ulydev/push
+[submodule "lib/bump.lua"]
+	path = lib/bump.lua
+	url = https://github.com/kikito/bump.lua
