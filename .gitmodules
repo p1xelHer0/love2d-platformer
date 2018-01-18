@@ -10,9 +10,6 @@
 [submodule "lib/lovebird"]
 	path = lib/lovebird
 	url = https://github.com/rxi/lovebird
-[submodule "lib/sti"]
-	path = lib/sti
-	url = https://github.com/karai17/Simple-Tiled-Implementation
 [submodule "lib/HooECS"]
 	path = lib/HooECS
 	url = https://github.com/Hooodini/HooECS
@@ -20,5 +17,8 @@
 	path = lib/push
 	url = https://github.com/Ulydev/push
 [submodule "lib/bump.lua"]
-	path = lib/bump.lua
+	path = lib/bump
 	url = https://github.com/kikito/bump.lua
+[submodule "lib/Simple-Tiled-Implementation"]
+	path = lib/sti/Simple-Tiled-Implementation
+	url = https://github.com/karai17/Simple-Tiled-Implementation
