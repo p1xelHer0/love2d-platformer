@@ -13,9 +13,6 @@
 [submodule "lib/HooECS"]
 	path = lib/HooECS
 	url = https://github.com/Hooodini/HooECS
-[submodule "lib/push"]
-	path = lib/push
-	url = https://github.com/Ulydev/push
 [submodule "lib/bump.lua"]
 	path = lib/bump
 	url = https://github.com/kikito/bump.lua

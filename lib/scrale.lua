@@ -1,5 +1,5 @@
 ﻿local scrale = {
-  _VERSION     = "scrale v0.1.2",
+  _VERSION     = "scrale v0.1.4",
   _DESCRIPTION = "Scale and center your desired low resolution game the best it can be in desktop window / desktop fullscreen on Mac / PC or in iOS / Android mobile devices based on native resolution",
   _URL         = "",
   _LICENSE     = [[
@@ -24,42 +24,68 @@
   ]]
 }
 
-local fsWidth, fsHeight, uc = nil, nil, canvas and canvas.use or love.graphics.setCanvas
+
+local uc = canvas and canvas.use or love.graphics.setCanvas
 
 scrale.canvas = nil
 
+local gWorg, gHorg
+local opts = {
+	fillVertically = false,
+	fillHorizontally = false,
+	scaleFilter = "nearest"
+}
+
 scrale.gW, scrale.gH = 800, 600 -- game size
-function scrale.getGameSize() return scrale.gW, scrale.gH end
+function scrale.getGameSize() return scrale.gW, scrale.gH end -- respects filling, helps for drawing
 
 scrale.slX, scrale.slY = 1, 1 -- scale factor (not required for drawing)
 function scrale.getScale() return scrale.slX, scrale.slY end
 
 scrale.oX, scrale.oY = 0, 0 -- offset to canvas (not required for drawing)
-function scrale.getOffset() return scrale.oX, scrale.oY end
+function scrale.getCanvasOffset() return scrale.oX, scrale.oY end
 
-function scrale.init(fsW, fsH) -- fullscreen size
-	fsWidth, fsHeight = fsW, fsH
+	function scrale.getCanvasSize() -- get the screen size of the canvas only, useful for camera settings
+		if scrale.canvas then
+			return scrale.canvas:getDimensions()
+		end
+		return nil, nil
+	end
 
-	local gW, gH = fsW, fsH -- game size
-	local os = love.system.getOS()
-	local m = os == "Android" or os == "iOS" -- mobile?
+function scrale.init(gameWidth, gameHeight, options)
+
+	gWorg, gHorg = gameWidth, gameHeight	
+	if type(options) == "table" then -- options
+		for k, v in pairs(options) do
+			opts[k] = v
+		end
+	end
+	love.graphics.setDefaultFilter(opts.scaleFilter, opts.scaleFilter)
+	
+	assert(gameWidth, "Missing #1 argument (game width) on scrale.init(). Please pass the window width from conf.lua and keep it consitent.")
+	assert(gameHeight, "Missing #2 argument (game height) on scrale.init(). Please pass the window height from conf.lua and keep it consitent.")
+	local gW, gH = gameWidth, gameHeight -- game size = window size
+	local os = love.system.getOS() -- operating system
+	local m = os == "Android" or os == "iOS" -- mobile?	
 	local wW, wH, flags = love.window.getMode() -- window size + flags
 	local sW, sH -- screen size
 	local slX, slY = 1, 1 -- scale factor
 	local oX, oY = 0, 0 -- offset
-	
 	assert(flags.fullscreentype == "desktop", "Only desktop fullscreen is supported.")
+	
 	if flags.fullscreen or m then
 
 		sW, sH = love.graphics.getDimensions()
 
 		-- calc game size
-		if gW == nil and gH ~= nil then
-			gW = gH * (sW / sH)
-		elseif gH == nil and gW ~= nil then
-			gH = gW * (sH / sW)
-		elseif gH == nil and gW == nil then
+		if opts.fillHorizontally and opts.fillVertically then
 			gW, gH = sW, sH
+		elseif opts.fillHorizontally then			
+			local ngW = gH * (sW / sH)
+			gW = ngW > gW and ngW or gW -- on fill: only increase, not decrease
+		elseif opts.fillVertically then
+			local ngH = gW * (sH / sW)
+			gH = ngH > gH and ngH or gH -- on fill: only increase, not decrease
 		end
 
 		slX, slY = sW / gW, sH / gH -- calc scale factor
@@ -78,23 +104,24 @@ function scrale.init(fsW, fsH) -- fullscreen size
 	else -- window mode on desktop
 
 		sW, sH = love.window.getDesktopDimensions()
-		gW, gH = wW, wH -- game size = window size
-		slX, slY = scrale.slX, scrale.slY
-		local updW = false
 
-		while gW * 2 < sW and gH * 2 < sH do -- resize window for better fit
-			gW, gH = gW * 2, gH * 2
+		local updW = gW ~= wW or gH ~= wH -- update window to game res when not matching window res
+		wW, wH = gW, gH -- window size = game size
+
+		while wW * 2 < sW and wH * 2 < sH do -- resize window for better fit
+			wW, wH = wW * 2, wH * 2
 			slX, slY = slX * 2, slY * 2
-			updW = true
+			updW = true -- update window when window res increased
 		end
 
 		if updW then
-			love.window.setMode(gW, gH, { fullscreen = false }) -- sorry for the flickering
+			love.window.setMode(wW, wH, { fullscreen = false }) -- sorry for the flickering
 		end
 
 	end
 	
 	scrale.canvas = love.graphics.newCanvas(gW, gH)
+	scrale.canvas:setFilter(opts.scaleFilter, opts.scaleFilter)
 	scrale.gW, scrale.gH = gW, gH
 	scrale.slX, scrale.slY = slX, slY
 	scrale.oX, scrale.oY = oX, oY
@@ -102,7 +129,7 @@ end
 
 function scrale.setFullscreen(fullscreen, fullscreenType)
 	love.window.setFullscreen(fullscreen, fullscreenType)
-	scrale.init(fsWidth, fsHeight)
+	scrale.init(gWorg, gHorg, opts)
 end
 
 function scrale.toggleFullscreen()
@@ -111,12 +138,16 @@ function scrale.toggleFullscreen()
 end
 
 function scrale.drawOnCanvas(clear)
-    uc(scrale.canvas)
-    if clear then love.graphics.clear({ 0, 0, 0, 255 }) end
+  uc(scrale.canvas)
+  if clear then love.graphics.clear({ 0, 0, 0, 255 }) end
 end
 
-function scrale.nativeToCanvas(x, y)
+function scrale.screenToGame(x, y) -- for instance to solve click positions
   return (x - scrale.oX) / scrale.slX, (y - scrale.oY) / scrale.slY
+end
+
+function scrale.gameToScreen(x, y)
+  return x * scrale.slX + scrale.oX, y * scrale.slY + scrale.oY
 end
 
 function scrale.draw()	
