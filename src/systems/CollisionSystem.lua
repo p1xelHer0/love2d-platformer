@@ -12,13 +12,20 @@ end
 
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
-		local platform = entity:get('Platform')
 		local body = entity:get('Body')
 
+		local movement = entity:get('Movement')
+
+		local crouch = entity:get('Crouch')
+		local fall = entity:get('Fall')
+		local jump = entity:get('Jump')
+		local slide = entity:get('Slide')
+		local stand = entity:get('Stand')
+
 		local position, jump_force, fall_speed =
-			platform.position,
-			platform.jump_force,
-			platform.fall_speed
+			movement.position,
+			jump.jump_force,
+			fall.fall_speed
 
 		local hitbox, velocity = body.hitbox, body.velocity
 
@@ -31,7 +38,7 @@ function CollisionSystem:update(dt)
 		-- 7 is the amount of pixels the hitbox decreases while crouching
     -- this way the character moves to the ground directly
     -- instead of shrinking and then falling to the ground
-		if platform.crouch_prev then
+		if crouch.crouch_current_frame then
 			newPosition.y = newPosition.y + 7
 		end
 
@@ -46,8 +53,8 @@ function CollisionSystem:update(dt)
 
 		-- No collisions, not grounded nor sliding
 		if length == 0 then
-			platform.grounded = false
-			platform.sliding = false
+			stand.standing = false
+			slide.sliding = false
 		end
 
 		-- Collision, grounded
@@ -57,7 +64,7 @@ function CollisionSystem:update(dt)
 			-- Entity collides on bottom
 			-- Entity is on the ground
 			if collision.normal.y == -1 then
-				platform.grounded = true
+				stand.standing = true
 				velocity.y = 0
 			end
 
@@ -71,19 +78,19 @@ function CollisionSystem:update(dt)
 			-- For wall jumping and sliding
 			if collision.normal.x == 1 or collision.normal.x == -1 then
 				-- This allows us to wall jump
-				platform.sliding = true
+				slide.sliding = true
 			else
-				platform.sliding = false
+				slide.sliding = false
 			end
 		end
 	end
 end
 
 function CollisionSystem:onAddEntity(entity)
-	local platform = entity:get('Platform')
+	local movement = entity:get('Movement')
 	local body = entity:get('Body')
 	local spawn_point = entity:get('SpawnPoint')
-	local position = platform.position
+	local position = movement.position
 	local hitbox = body.hitbox
 
 	if spawn_point then
@@ -106,7 +113,7 @@ end
 function CollisionSystem:requires()
 	return {
 		'Body',
-		'Platform',
+		'Movement',
 	}
 end
 

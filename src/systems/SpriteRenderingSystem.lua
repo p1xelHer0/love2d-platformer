@@ -7,18 +7,24 @@ end
 function SpriteRenderingSystem:draw()
 	love.graphics.setBackgroundColor(33, 33, 33)
 	for _, entity in pairs(self.targets) do
-		local platform = entity:get('Platform')
 		local sprite = entity:get('Sprite')
 		local animation = entity:get('Animation')
 
-		local direction, position = platform.direction, platform.position
+		local movement = entity:get('Movement')
+		local crouch = entity:get('Crouch')
+		local fall = entity:get('Fall')
+		local jump = entity:get('Jump')
+		local slide = entity:get('Slide')
+		local stand = entity:get('Stand')
+		local direction, position = movement.direction, movement.position
 
 		-- States the sprite can be in
-		local moving, jumping, crouching, falling, grounded =
-			platform.moving,
-			platform.jumping,
-			platform.crouching,
-			platform.falling
+		local moving, jumping, crouching, falling, standing =
+			movement.moving,
+			jump.jumping,
+			crouch.crouching,
+			fall.falling,
+			stand.standing
 
 		local image = sprite.image
 		local animations = animation.animations
@@ -67,7 +73,6 @@ end
 function SpriteRenderingSystem:requires()
 	return {
 		'Animation',
-		'Platform',
 		'Sprite',
 	}
 end
