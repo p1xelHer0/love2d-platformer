@@ -93,6 +93,7 @@ function InputSystem:update(dt)
 						jump.jumping = true
 						jump.jump_count = jump.jump_count + 1
 						jump.jump_current_frame = true
+					end
 				end
 			end
 		end

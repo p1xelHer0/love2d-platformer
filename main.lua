@@ -30,6 +30,8 @@ function love.load()
 		scaleFilter = "nearest",
 	})
 
+	love.graphics.setLineStyle('rough')
+
 	engine = Engine()
 
 	engine:addEntity(Player())

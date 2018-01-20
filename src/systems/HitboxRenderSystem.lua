@@ -12,8 +12,8 @@ function HitboxRenderSystem:draw()
 		local position = movement.position
 		local hitbox = body.hitbox
 
-		love.graphics.setColor(255, 60, 60)
-		love.graphics.rectangle('line', position.x, position.y, hitbox.w, hitbox.h)
+		love.graphics.setColor(255, 60, 60, 100)
+		love.graphics.rectangle('fill', position.x, position.y, hitbox.w, hitbox.h)
 		love.graphics.setColor(255, 255, 255)
 	end
 end
