@@ -18,14 +18,6 @@ function SpriteRenderingSystem:draw()
 		local stand = entity:get('Stand')
 		local direction, position = movement.direction, movement.position
 
-		-- States the sprite can be in
-		local moving, jumping, crouching, falling, standing =
-			movement.moving,
-			jump.jumping,
-			crouch.crouching,
-			fall.falling,
-			stand.standing
-
 		local image = sprite.image
 		local animations = animation.animations
 
@@ -58,14 +50,25 @@ function SpriteRenderingSystem:draw()
 		}
 
 		-- Render the animations
-		if falling then
-			animations.fall:draw(unpack(draw_properties))
-		elseif crouching then
-			animations.crouch:draw(unpack(draw_properties))
-		elseif jumping then
-			animations.jump:draw(unpack(draw_properties))
-		else
-			animations.idle:draw(unpack(draw_properties))
+		if fall then
+			if fall.falling then
+				animations.fall:draw(unpack(draw_properties))
+			end
+		end
+		if crouch then
+			if crouch.crouching then
+				animations.crouch:draw(unpack(draw_properties))
+			end
+		end
+		if jump then
+			if jump.jumping then
+				animations.jump:draw(unpack(draw_properties))
+			end
+		end
+		if stand then
+			if stand.standing then
+				animations.idle:draw(unpack(draw_properties))
+			end
 		end
 	end
 end

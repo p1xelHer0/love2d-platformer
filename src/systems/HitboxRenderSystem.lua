@@ -6,10 +6,10 @@ end
 
 function HitboxRenderSystem:draw()
 	for _, entity in pairs(self.targets) do
-		local platform = entity:get('Platform')
+		local movement = entity:get('Movement')
 		local body = entity:get('Body')
 
-		local position = platform.position
+		local position = movement.position
 		local hitbox = body.hitbox
 
 		love.graphics.setColor(255, 60, 60)
@@ -20,8 +20,8 @@ end
 
 function HitboxRenderSystem:requires()
 	return {
-		'Platform',
 		'Body',
+		'Movement',
 	}
 end
 

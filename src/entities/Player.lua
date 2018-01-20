@@ -6,28 +6,13 @@ require('src.components.Crouch')
 require('src.components.Fall')
 require('src.components.Input')
 require('src.components.Jump')
-require('src.components.Platform')
-require('src.components.Roll')
+require('src.components.Movement')
 require('src.components.Slide')
 require('src.components.SpawnPoint')
 require('src.components.Sprite')
 require('src.components.Stand')
 
-local
-	Animation,
-	Body,
-	Crouch,
-	Fall,
-	Input,
-	Jump,
-	Movement,
-	Platform,
-	Roll,
-	Slide,
-	SpawnPoint,
-	Sprite,
-	Stand =
-	Component.load({
+local Animation, Body, Crouch, Fall, Input, Jump, Movement, Slide, SpawnPoint, Sprite, Stand = Component.load({
 	'Animation',
 	'Body',
 	'Crouch',
@@ -35,8 +20,6 @@ local
 	'Input',
 	'Jump',
 	'Movement',
-	'Platform',
-	'Roll',
 	'Slide',
 	'SpawnPoint',
 	'Sprite',
@@ -60,13 +43,11 @@ local function Player()
 
 	entity:add(Animation(animations))
 	entity:add(Body(size))
-	entity:add(Crouch())
+	-- entity:add(Crouch())
 	entity:add(Fall())
 	entity:add(Input())
 	entity:add(Jump())
 	entity:add(Movement())
-	entity:add(Platform())
-	entity:add(Roll())
 	entity:add(Slide())
 	entity:add(SpawnPoint('player'))
 	entity:add(Sprite(image))

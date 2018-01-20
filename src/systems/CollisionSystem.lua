@@ -18,14 +18,10 @@ function CollisionSystem:update(dt)
 
 		local crouch = entity:get('Crouch')
 		local fall = entity:get('Fall')
-		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
 
-		local position, jump_force, fall_speed =
-			movement.position,
-			jump.jump_force,
-			fall.fall_speed
+		local position = movement.position
 
 		local hitbox, velocity = body.hitbox, body.velocity
 
@@ -38,8 +34,10 @@ function CollisionSystem:update(dt)
 		-- 7 is the amount of pixels the hitbox decreases while crouching
     -- this way the character moves to the ground directly
     -- instead of shrinking and then falling to the ground
-		if crouch.crouch_current_frame then
-			newPosition.y = newPosition.y + 7
+    if crouch then
+			if crouch.crouch_current_frame then
+				newPosition.y = newPosition.y + 7
+			end
 		end
 
 		-- we need to update the entity if the hitbox changes
@@ -65,6 +63,8 @@ function CollisionSystem:update(dt)
 			-- Entity is on the ground
 			if collision.normal.y == -1 then
 				stand.standing = true
+				slide.sliding = false
+				fall.falling = false
 				velocity.y = 0
 			end
 
@@ -79,6 +79,7 @@ function CollisionSystem:update(dt)
 			if collision.normal.x == 1 or collision.normal.x == -1 then
 				-- This allows us to wall jump
 				slide.sliding = true
+				fall.falling = false
 			else
 				slide.sliding = false
 			end
