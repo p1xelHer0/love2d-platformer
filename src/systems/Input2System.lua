@@ -16,11 +16,8 @@ function InputSystem:update(dt)
 			love.keyboard.isDown('s'),
 			love.keyboard.isDown('space')
 
-		-- We assume we are not jumping or crouching
-		platform.jumping = false
-		platform.crouching = false
 
-		-- Update movement and direction according to A/D
+		-- Update movement and direction according to L/R
 		if left and not right then
 			platform.moving = true
 			platform.direction = -1
@@ -30,6 +27,10 @@ function InputSystem:update(dt)
 		else
 			platform.moving = false
 		end
+
+		-- We assume we are not jumping or crouching
+		platform.jumping = false
+		platform.crouching = false
 
 		-- Update crouching according to input
 		-- We can only crouch on the ground
@@ -56,7 +57,7 @@ function InputSystem:update(dt)
 			if not platform.jump_prev and platform.jump_time < platform.jump_time_max then
 				if
 					-- If we are on the ground, we can always jump
-					platform.grounded
+					stand.standing
 					or
 					-- We are not on the ground, we are in the air
 					-- We can only jump in the air if:

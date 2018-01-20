@@ -26,10 +26,10 @@ function CollisionSystem:update(dt)
 		local hitbox, velocity = body.hitbox, body.velocity
 
 		-- New position according to velocity and delta
-		local newPosition = {
-			x = position.x + velocity.x * dt,
-			y = position.y + velocity.y * dt,
-		}
+		local newPosition = vector(
+			position.x + velocity.x * dt,
+			position.y + velocity.y * dt
+		)
 
 		-- 7 is the amount of pixels the hitbox decreases while crouching
     -- this way the character moves to the ground directly
@@ -41,7 +41,7 @@ function CollisionSystem:update(dt)
 		end
 
 		-- we need to update the entity if the hitbox changes
-		self.bumpWorld:update(entity,	position.x, position.y, hitbox.w, hitbox.h)
+		self.bumpWorld:update(entity, position.x, position.y, hitbox.w, hitbox.h)
 
 		-- Move and return collisions
 		local collisions, length
