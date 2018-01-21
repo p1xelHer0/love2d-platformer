@@ -40,8 +40,8 @@ function CollisionSystem:update(dt)
 			newPosition.y = newPosition.y + 7
 		end
 
-		-- we need to update the entity if the hitbox changes
-		self.bumpWorld:update(entity, position.x, position.y, hitbox.w, hitbox.h)
+		-- We need to update the entity if the hitbox changes
+		 self.bumpWorld:update(entity, position.x, position.y, hitbox.w, hitbox.h)
 
 		-- Move and return collisions
 		local collisions, length
@@ -49,32 +49,33 @@ function CollisionSystem:update(dt)
 			entity, newPosition.x, newPosition.y
 		)
 
+		-- No collisions, this means we cant be standing or sliding
 		if length == 0 then
+			stand.standing = false
 			slide.sliding = false
-		end
+		else
+			for i = 1, length do
+				local collision = collisions[i]
 
-		-- Collision, grounded
-		for i = 1, length do
-			local collision = collisions[i]
+				-- We collided on bottom
+				-- Entity is on the ground
+				if collision.normal.y == -1 then
+					fsm('land', entity)
+				end
 
-			-- Entity collides on bottom
-			-- Entity is on the ground
-			if collision.normal.y == -1 then
-				fsm('land', entity)
-			end
+				-- We collided on top
+				-- Entity is on the ceiling
+				if collision.normal.y == 1 then
+					velocity.y = 0
+				end
 
-			-- Entity collides on top
-			-- Entity is on the ceiling
-			if collision.normal.y == 1 then
-				velocity.y = 0
-			end
-
-			-- Entity collides on L/R
-			-- For wall jumping and sliding
-			if collision.normal.x == 1 or collision.normal.x == -1 then
-				-- We are moving downwards and colliding with a wall, we are sliding
-				if fall.falling then
-					fsm('slide', entity)
+				-- We collided on L/R
+				-- For wall jumping and sliding
+				if collision.normal.x == 1 or collision.normal.x == -1 then
+					-- We are moving downwards and colliding with a wall, we are sliding
+					if fall.falling then
+						fsm('slide', entity)
+					end
 				end
 			end
 		end

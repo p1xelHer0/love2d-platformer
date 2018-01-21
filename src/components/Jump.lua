@@ -7,4 +7,5 @@ function Jump:initialize()
 	self.jump_force = -120
 
 	self.jump_current_frame = false
+	self.jump_input_stop = false
 end

@@ -16,6 +16,7 @@ function SpriteRenderingSystem:draw()
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
+
 		local direction, position = movement.direction, movement.position
 
 		local image = sprite.image
@@ -56,8 +57,10 @@ function SpriteRenderingSystem:draw()
 			animations.crouch:draw(unpack(draw_properties))
 		elseif jump.jumping then
 			animations.jump:draw(unpack(draw_properties))
+		elseif slide.sliding then
+			animations.slide:draw(unpack(draw_properties))
 		elseif stand.standing then
-			animations.idle:draw(unpack(draw_properties))
+			animations.stand:draw(unpack(draw_properties))
 		end
 	end
 end

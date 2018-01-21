@@ -35,7 +35,8 @@ local function Player()
 	local g = anim8.newGrid(16, 16, image:getWidth(), image:getHeight(), 0)
 
 	local animations = {
-		idle = anim8.newAnimation(g('1-3', 1), 0.5),
+		stand = anim8.newAnimation(g('1-3', 1), 0.5),
+		slide = anim8.newAnimation(g('8-1', 1), 0.5),
 		jump = anim8.newAnimation(g('5-1', 1), 0.5),
 		crouch = anim8.newAnimation(g('6-1', 1), 0.5),
 		fall = anim8.newAnimation(g('7-1', 1), 0.5),

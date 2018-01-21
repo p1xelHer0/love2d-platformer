@@ -8,7 +8,7 @@ function AnimationSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local animations = entity:get('Animation').animations
 
-		animations.idle:update(dt)
+		animations.stand:update(dt)
 	end
 end
 

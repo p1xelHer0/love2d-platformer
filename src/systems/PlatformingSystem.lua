@@ -3,8 +3,7 @@ local fsm = require('src.fsm')
 local PlatformingSystem = class('PlatformingSystem', System)
 
 function PlatformingSystem:initialize()
-	System.initialize(self)
-end
+	System.initialize(self) end
 
 function PlatformingSystem:update(dt)
 	for _, entity in pairs(self.targets) do
@@ -31,6 +30,7 @@ function PlatformingSystem:update(dt)
 			velocity.x = movement.speed * movement.direction
 		end
 
+		-- Landing reset the jump counts
 		if stand.standing then
 			jump.jump_count = 0
 		end
@@ -43,7 +43,6 @@ function PlatformingSystem:update(dt)
 		end
 
 
-		-- Modifiers to velocity
 		-- Crouching, hitbox is lower
 		-- Crouching, move slower on the x-axis
 		if crouch.crouching then
@@ -55,9 +54,11 @@ function PlatformingSystem:update(dt)
 		end
 
 		-- Sliding downwards, move slower on the y-axis
+		-- Also, we can jump again
 		if slide.sliding then
 			jump.jump_count = jump.jump_count_max - 1
 			velocity.y = velocity.y * slide.slide_modifier
+		-- We are not sliding and moving downwards, we are falling
 		elseif velocity.y > 0 then
 			fsm('fall', entity)
 		end
@@ -65,7 +66,7 @@ function PlatformingSystem:update(dt)
 		-- Entity is affected by gravity constantly
 		-- Clamp velocity to prevent infinite fallig speed
 		velocity.y = clamp(
-			velocity.y + body.gravity.y * dt, jump.jump_force or 100, fall.fall_speed
+			velocity.y + body.gravity.y * dt, jump.jump_force, fall.fall_speed
 		)
 	end
 end

@@ -14,13 +14,19 @@ local function can_jump(entity)
 	if not jump then return false end
 	if not stand then return false end
 
-	if not jump.jump_current_frame then
+	-- We can only jump if we have released the jump-button the frame before
+	if jump.jump_input_stop then
+		-- We cant jump while crouching
 		if crouch.crouching then
 			return false
-		elseif stand.standing or slide.sliding then
+		-- We can always jump while standing
+		elseif stand.standing then
 			return true
-		elseif jump.jumping and jump.jump_count > jump.jump_count_max then
-			return true
+		-- We only have a set amount of jump in the air or sliding
+		elseif jump.jumping or slide.sliding then
+			if jump.jump_count < jump.jump_count_max then
+				return true
+			end
 		end
 	end
 
@@ -34,6 +40,7 @@ local function can_crouch(entity)
 	if not crouch then return false end
 	if not stand then return false end
 
+	-- We can onlt crouch while standing
 	if stand.standing then
 		return true
 	end
@@ -68,24 +75,26 @@ function InputSystem:update(dt)
 			movement.moving = false
 		end
 
+		-- Reset
 		crouch.crouch_current_frame = false
+		jump.jump_current_frame = false
 
 		-- We let go of space, this means we can try to jump again
 		if not space then
-			jump.jump_current_frame = false
+			jump.jump_input_stop = true
+		-- We try to jump
 		elseif space then
 			if can_jump(entity) then
-				if not jump.jumping then
-					-- First frame of jumping
-					fsm('jump', entity)
-					jump.jump_current_frame = true
-				end
+				fsm('jump', entity)
 				jump.jumping = true
+				jump.jump_current_frame = true
+				jump.jump_input_stop = false
 			end
 		end
 
 		if not down then
 			crouch.crouching = false
+		-- We try to crouch
 		elseif down then
 			if can_crouch(entity) then
 				if not crouch.crouching then
@@ -93,6 +102,7 @@ function InputSystem:update(dt)
 					fsm('crouch', entity)
 					crouch.crouch_current_frame = true
 				else
+					-- Rest of frames crouching
 					crouch.crouching = true
 				end
 			end
