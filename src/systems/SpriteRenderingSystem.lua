@@ -34,7 +34,7 @@ function SpriteRenderingSystem:draw()
 			offset.x = 5
 		end
 
-		if crouching then
+		if crouch.crouching then
 			offset.y = 9
 		end
 
@@ -50,25 +50,14 @@ function SpriteRenderingSystem:draw()
 		}
 
 		-- Render the animations
-		if fall then
-			if fall.falling then
-				animations.fall:draw(unpack(draw_properties))
-			end
-		end
-		if crouch then
-			if crouch.crouching then
-				animations.crouch:draw(unpack(draw_properties))
-			end
-		end
-		if jump then
-			if jump.jumping then
-				animations.jump:draw(unpack(draw_properties))
-			end
-		end
-		if stand then
-			if stand.standing then
-				animations.idle:draw(unpack(draw_properties))
-			end
+		if fall.falling then
+			animations.fall:draw(unpack(draw_properties))
+		elseif crouch.crouching then
+			animations.crouch:draw(unpack(draw_properties))
+		elseif jump.jumping then
+			animations.jump:draw(unpack(draw_properties))
+		elseif stand.standing then
+			animations.idle:draw(unpack(draw_properties))
 		end
 	end
 end

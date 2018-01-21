@@ -43,7 +43,7 @@ local function Player()
 
 	entity:add(Animation(animations))
 	entity:add(Body(size))
-	-- entity:add(Crouch())
+	entity:add(Crouch())
 	entity:add(Fall())
 	entity:add(Input())
 	entity:add(Jump())

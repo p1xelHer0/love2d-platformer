@@ -1,6 +1,7 @@
 local bump = require('lib.bump.bump')
 local sti = require('lib.sti.sti')
-local round = require('lib.lume.lume').round
+
+local fsm = require('src.fsm')
 
 local CollisionSystem = class('CollisionSystem', System)
 
@@ -16,6 +17,7 @@ function CollisionSystem:update(dt)
 
 		local movement = entity:get('Movement')
 
+		local jump = entity:get('Jump')
 		local crouch = entity:get('Crouch')
 		local fall = entity:get('Fall')
 		local slide = entity:get('Slide')
@@ -34,10 +36,8 @@ function CollisionSystem:update(dt)
 		-- 7 is the amount of pixels the hitbox decreases while crouching
     -- this way the character moves to the ground directly
     -- instead of shrinking and then falling to the ground
-    if crouch then
-			if crouch.crouch_current_frame then
-				newPosition.y = newPosition.y + 7
-			end
+		if crouch.crouch_current_frame then
+			newPosition.y = newPosition.y + 7
 		end
 
 		-- we need to update the entity if the hitbox changes
@@ -49,9 +49,7 @@ function CollisionSystem:update(dt)
 			entity, newPosition.x, newPosition.y
 		)
 
-		-- No collisions, not grounded nor sliding
 		if length == 0 then
-			stand.standing = false
 			slide.sliding = false
 		end
 
@@ -62,10 +60,7 @@ function CollisionSystem:update(dt)
 			-- Entity collides on bottom
 			-- Entity is on the ground
 			if collision.normal.y == -1 then
-				stand.standing = true
-				slide.sliding = false
-				fall.falling = false
-				velocity.y = 0
+				fsm('land', entity)
 			end
 
 			-- Entity collides on top
@@ -74,14 +69,13 @@ function CollisionSystem:update(dt)
 				velocity.y = 0
 			end
 
-			-- Entity collides on left/right
+			-- Entity collides on L/R
 			-- For wall jumping and sliding
 			if collision.normal.x == 1 or collision.normal.x == -1 then
-				-- This allows us to wall jump
-				slide.sliding = true
-				fall.falling = false
-			else
-				slide.sliding = false
+				-- We are moving downwards and colliding with a wall, we are sliding
+				if fall.falling then
+					fsm('slide', entity)
+				end
 			end
 		end
 	end

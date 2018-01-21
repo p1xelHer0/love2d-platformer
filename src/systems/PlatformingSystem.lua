@@ -1,4 +1,5 @@
 local clamp = require('lib.lume.lume').clamp
+local fsm = require('src.fsm')
 local PlatformingSystem = class('PlatformingSystem', System)
 
 function PlatformingSystem:initialize()
@@ -24,51 +25,48 @@ function PlatformingSystem:update(dt)
 		-- Velocity on the x-axis stops instantly, no acceleraction
 		velocity.x = 0
 
-	  -- Apply jump if jumping
-	  if jump then
-			if jump.jumping then
-				velocity.y = jump.jump_force
-			end
-		end
-
-		-- Downwards velocity means the entity is falling
-		if fall then
-			if velocity.y > 0 then
-				fall.falling = true
-			else
-				fall.falling = false
-			end
-		end
-
 		-- Add velocity according to direction
 		if movement.moving then
+			fsm('move', entity)
 			velocity.x = movement.speed * movement.direction
 		end
 
-		-- Entity is affected by gravity constantly
-		-- Clamp velocity to prevent infinite fallig speed
-			velocity.y = clamp(
-				velocity.y + body.gravity.y * dt, jump.jump_force or 100, fall.fall_speed
-			)
+		if stand.standing then
+			jump.jump_count = 0
+		end
+
+	  -- We only apply jump force on the first frame of jumping
+		if jump.jump_current_frame then
+			fsm('jump', entity)
+			velocity.y = jump.jump_force
+			jump.jump_count = jump.jump_count + 1
+		end
+
 
 		-- Modifiers to velocity
 		-- Crouching, hitbox is lower
 		-- Crouching, move slower on the x-axis
-		if crouch then
-			if crouch.crouching then
-				hitbox.h = 7
-				velocity.x = velocity.x * crouch.crouch_modifier
-			else
-				hitbox.h = 14
-			end
+		if crouch.crouching then
+			fsm('crouch', entity)
+			velocity.x = velocity.x * crouch.crouch_modifier
+			hitbox.h = 7
+		else
+			hitbox.h = 14
 		end
 
 		-- Sliding downwards, move slower on the y-axis
-		if slide then
-			if slide.sliding then
-				velocity.y = velocity.y * slide.slide_modifier
-			end
+		if slide.sliding then
+			jump.jump_count = jump.jump_count_max - 1
+			velocity.y = velocity.y * slide.slide_modifier
+		elseif velocity.y > 0 then
+			fsm('fall', entity)
 		end
+
+		-- Entity is affected by gravity constantly
+		-- Clamp velocity to prevent infinite fallig speed
+		velocity.y = clamp(
+			velocity.y + body.gravity.y * dt, jump.jump_force or 100, fall.fall_speed
+		)
 	end
 end
 

@@ -1,7 +1,44 @@
+local fsm = require('src.fsm')
 local InputSystem = class('InputSystem', System)
 
 function InputSystem:initialize()
 	System.initialize(self)
+end
+
+local function can_jump(entity)
+	local crouch = entity:get('Crouch')
+	local jump = entity:get('Jump')
+	local slide = entity:get('Slide')
+	local stand = entity:get('Stand')
+
+	if not jump then return false end
+	if not stand then return false end
+
+	if not jump.jump_current_frame then
+		if crouch.crouching then
+			return false
+		elseif stand.standing or slide.sliding then
+			return true
+		elseif jump.jumping and jump.jump_count > jump.jump_count_max then
+			return true
+		end
+	end
+
+	return false
+end
+
+local function can_crouch(entity)
+	local crouch = entity:get('Crouch')
+	local stand = entity:get('Stand')
+
+	if not crouch then return false end
+	if not stand then return false end
+
+	if stand.standing then
+		return true
+	end
+
+	return false
 end
 
 function InputSystem:update(dt)
@@ -12,24 +49,6 @@ function InputSystem:update(dt)
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
-
-		-- Prepare data
-		if stand then
-		end
-
-		-- We assume we are not jumping
-		if jump then
-			jump.jump_current_frame = false
-		end
-
-		if slide then
-			slide.slide_current_frame = false
-		end
-
-		-- We assume we are not crouching
-		if crouch then
-			crouch.crouch_current_frame = false
-		end
 
 		-- WASD and Space as of now for input
 		local left, right, down, space =
@@ -49,56 +68,32 @@ function InputSystem:update(dt)
 			movement.moving = false
 		end
 
-		-- Update crouching according to input
-		-- We can only crouch on the ground
-		if stand then
-			if crouch then
-				if down and stand.standing then
-					if not crouch.crouching then
-						-- Save the first frame of crouching
-						crouch.crouch_current_frame = true
-					end
+		crouch.crouch_current_frame = false
 
+		-- We let go of space, this means we can try to jump again
+		if not space then
+			jump.jump_current_frame = false
+		elseif space then
+			if can_jump(entity) then
+				if not jump.jumping then
+					-- First frame of jumping
+					fsm('jump', entity)
+					jump.jump_current_frame = true
+				end
+				jump.jumping = true
+			end
+		end
+
+		if not down then
+			crouch.crouching = false
+		elseif down then
+			if can_crouch(entity) then
+				if not crouch.crouching then
+					-- First frame of crouching
+					fsm('crouch', entity)
+					crouch.crouch_current_frame = true
+				else
 					crouch.crouching = true
-					stand.standing = false
-				end
-
-				if stand.standing then
-					crouch.crouching = false
-				end
-			end
-
-			if jump then
-				if stand.standing then
-				-- Reset jump counter when touching the ground
-					jump.jump_count = 0
-				end
-
-				if space then
-				-- We can only jump if we did not jump the frame before
-					if not jump.jump_current_frame then
-						if
-						-- If we are on the ground or sliding, we can always jump
-							stand.standing or slide.sliding
-							or
-							-- We are not on the ground or sliding, we are in the air
-							-- We can only jump in the air if:
-							--	 We have not exceeded the maximum amount of jumps
-							not stand.standing and
-							not slide.sliding and
-							jump.jump_count < jump.jump_count_max
-						then
-							jump.jumping = true
-							jump.jump_count = jump.jump_count + 1
-							jump.jump_current_frame = true
-						end
-					end
-				end
-			end
-
-			if slide then
-				if slide.sliding then
-					jump.jump_count = jump.jump_count_max - 1
 				end
 			end
 		end
