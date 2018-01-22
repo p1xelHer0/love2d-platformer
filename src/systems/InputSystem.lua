@@ -54,8 +54,6 @@ function InputSystem:update(dt)
 
 		local crouch = entity:get('Crouch')
 		local jump = entity:get('Jump')
-		local slide = entity:get('Slide')
-		local stand = entity:get('Stand')
 
 		-- WASD and Space as of now for input
 		local left, right, down, space =
@@ -76,8 +74,14 @@ function InputSystem:update(dt)
 		end
 
 		-- Reset
-		crouch.crouch_current_frame = false
-		jump.jump_current_frame = false
+		crouch.crouch_start_frame,
+		crouch.crouch_stop_frame,
+		jump.jump_start_frame,
+		jump.jump_stop_frame =
+		false,
+		false,
+		false,
+		false
 
 		-- We let go of space, this means we can try to jump again
 		if not space then
@@ -87,12 +91,16 @@ function InputSystem:update(dt)
 			if can_jump(entity) then
 				fsm('jump', entity)
 				jump.jumping = true
-				jump.jump_current_frame = true
+				jump.jump_start_frame = true
 				jump.jump_input_stop = false
 			end
 		end
 
 		if not down then
+			if crouch.crouching then
+				crouch.crouch_stop_frame = true
+				print('yolo')
+			end
 			crouch.crouching = false
 		-- We try to crouch
 		elseif down then
@@ -100,7 +108,7 @@ function InputSystem:update(dt)
 				if not crouch.crouching then
 					-- First frame of crouching
 					fsm('crouch', entity)
-					crouch.crouch_current_frame = true
+					crouch.crouch_start_frame = true
 				else
 					-- Rest of frames crouching
 					crouch.crouching = true

@@ -6,6 +6,6 @@ function Jump:initialize()
 	self.jump_count_max = 2
 	self.jump_force = -120
 
-	self.jump_current_frame = false
+	self.jump_start_frame = false
 	self.jump_input_stop = false
 end

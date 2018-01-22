@@ -36,12 +36,12 @@ function CollisionSystem:update(dt)
 		-- 7 is the amount of pixels the hitbox decreases while crouching
     -- this way the character moves to the ground directly
     -- instead of shrinking and then falling to the ground
-		if crouch.crouch_current_frame then
+		if crouch.crouch_start_frame then
 			newPosition.y = newPosition.y + 7
 		end
 
 		-- We need to update the entity if the hitbox changes
-		 self.bumpWorld:update(entity, position.x, position.y, hitbox.w, hitbox.h)
+		self.bumpWorld:update(entity, position.x, position.y, hitbox.w, hitbox.h)
 
 		-- Move and return collisions
 		local collisions, length
