@@ -29,15 +29,12 @@ function CollisionSystem:update(dt)
 		-- 7 is the amount of pixels the hitbox decreases while crouching
     -- this way the character moves to the ground directly
     -- instead of shrinking and then falling to the ground
+    --
+		-- the other way around, we need to move the character up
 		if crouch.crouch_start_frame then
 			position.y = position.y + 7
-			print('crouch start')
-		end
-
-		-- the other way around, we need to move the character up
-		if crouch.crouch_stop_frame then
+		elseif crouch.crouch_stop_frame then
 			position.y = position.y - 7
-			print('crouch stop')
 		end
 
 		-- New position according to velocity and delta

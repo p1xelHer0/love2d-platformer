@@ -37,7 +37,11 @@ function PlatformingSystem:update(dt)
 	  -- We only apply jump force on the first frame of jumping
 		if jump.jump_start_frame then
 			fsm('jump', entity)
-			velocity.y = jump.jump_force
+			if slide.sliding then
+
+			else
+				velocity.y = jump.jump_force
+			end
 			jump.jump_count = jump.jump_count + 1
 		end
 
