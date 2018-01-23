@@ -31,6 +31,13 @@ function CollisionSystem:update(dt)
     -- instead of shrinking and then falling to the ground
 		if crouch.crouch_start_frame then
 			position.y = position.y + 7
+			print('crouch start')
+		end
+
+		-- the other way around, we need to move the character up
+		if crouch.crouch_stop_frame then
+			position.y = position.y - 7
+			print('crouch stop')
 		end
 
 		-- New position according to velocity and delta
