@@ -24,6 +24,8 @@ function PhysicsSystem:update(dt)
 		-- We are not sliding and moving downwards, we are falling
 		elseif velocity.y > 0 then
 			fsm('fall', entity)
+		else
+			fall.falling = false
 		end
 
 		-- Entity is affected by gravity constantly
