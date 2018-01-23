@@ -18,6 +18,7 @@ local CollisionSystem = require('src.systems.CollisionSystem')
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local InputSystem = require('src.systems.InputSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
+local PhysicsSystem = require('src.systems.PhysicsSystem')
 local PlatformingSystem = require('src.systems.PlatformingSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 
@@ -43,6 +44,7 @@ function love.load()
 	engine:addSystem(PlatformingSystem())
 	engine:addSystem(SpriteRenderingSystem())
 	if DEBUG then engine:addSystem(HitboxRenderSystem()) end
+	engine:addSystem(PhysicsSystem(level))
 	engine:addSystem(CollisionSystem(level))
 
 	engine:addSystem(AnimationSystem())

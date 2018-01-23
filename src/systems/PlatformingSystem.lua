@@ -1,4 +1,3 @@
-local clamp = require('lib.lume.lume').clamp
 local fsm = require('src.fsm')
 local PlatformingSystem = class('PlatformingSystem', System)
 
@@ -42,7 +41,6 @@ function PlatformingSystem:update(dt)
 			jump.jump_count = jump.jump_count + 1
 		end
 
-
 		-- Crouching, hitbox is lower
 		-- Crouching, move slower on the x-axis
 		if crouch.crouching then
@@ -57,17 +55,7 @@ function PlatformingSystem:update(dt)
 		-- Also, we can jump again
 		if slide.sliding then
 			jump.jump_count = jump.jump_count_max - 1
-			velocity.y = velocity.y * slide.slide_modifier
-		-- We are not sliding and moving downwards, we are falling
-		elseif velocity.y > 0 then
-			fsm('fall', entity)
 		end
-
-		-- Entity is affected by gravity constantly
-		-- Clamp velocity to prevent infinite fallig speed
-		velocity.y = clamp(
-			velocity.y + body.gravity.y * dt, jump.jump_force, fall.fall_speed
-		)
 	end
 end
 

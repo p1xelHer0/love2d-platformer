@@ -3,10 +3,12 @@ local sti = require('lib.sti.sti')
 
 require('src.components.BumpWorld')
 require('src.components.TileMap')
+require('src.components.Physics')
 
-local BumpWorld, TileMap = Component.load({
+local BumpWorld, TileMap, Physics = Component.load({
 	'BumpWorld',
 	'TileMap',
+	'Physics',
 })
 
 local function Level(tileMapPath)
@@ -18,6 +20,7 @@ local function Level(tileMapPath)
 
 	entity:add(BumpWorld(world))
 	entity:add(TileMap(map))
+	entity:add(Physics())
 
 	return entity
 end

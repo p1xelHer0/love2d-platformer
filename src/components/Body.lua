@@ -6,5 +6,5 @@ function Body:initialize(size)
 
 	self.velocity = vector(0, 0)
 
-	self.gravity = vector(0, 400)
+	self.mass = 8
 end

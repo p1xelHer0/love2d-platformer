@@ -17,7 +17,6 @@ function CollisionSystem:update(dt)
 
 		local movement = entity:get('Movement')
 
-		local jump = entity:get('Jump')
 		local crouch = entity:get('Crouch')
 		local fall = entity:get('Fall')
 		local slide = entity:get('Slide')
@@ -27,18 +26,18 @@ function CollisionSystem:update(dt)
 
 		local hitbox, velocity = body.hitbox, body.velocity
 
+		-- 7 is the amount of pixels the hitbox decreases while crouching
+    -- this way the character moves to the ground directly
+    -- instead of shrinking and then falling to the ground
+		if crouch.crouch_start_frame then
+			position.y = position.y + 7
+		end
+
 		-- New position according to velocity and delta
 		local newPosition = vector(
 			position.x + velocity.x * dt,
 			position.y + velocity.y * dt
 		)
-
-		-- 7 is the amount of pixels the hitbox decreases while crouching
-    -- this way the character moves to the ground directly
-    -- instead of shrinking and then falling to the ground
-		if crouch.crouch_start_frame then
-			newPosition.y = newPosition.y + 7
-		end
 
 		-- We need to update the entity if the hitbox changes
 		self.bumpWorld:update(entity, position.x, position.y, hitbox.w, hitbox.h)

@@ -99,7 +99,6 @@ function InputSystem:update(dt)
 		if not down then
 			if crouch.crouching then
 				crouch.crouch_stop_frame = true
-				print('yolo')
 			end
 			crouch.crouching = false
 		-- We try to crouch
