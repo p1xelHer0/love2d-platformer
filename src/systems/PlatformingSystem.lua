@@ -10,7 +10,6 @@ function PlatformingSystem:update(dt)
 		local movement = entity:get('Movement')
 
 		local crouch = entity:get('Crouch')
-		local fall = entity:get('Fall')
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
@@ -37,10 +36,9 @@ function PlatformingSystem:update(dt)
 	  -- We only apply jump force on the first frame of jumping
 		if jump.jump_start_frame then
 			if slide.sliding then
-				velocity.x = velocity.y + -movement * slide.jump_force
-			else
-				velocity.y = jump.jump_force
+				velocity.x = velocity.x + movement.direction * jump.jump_force * 5
 			end
+			velocity.y = jump.jump_force
 			fsm('jump', entity)
 			jump.jump_count = jump.jump_count + 1
 		end

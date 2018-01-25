@@ -59,6 +59,7 @@ function CollisionSystem:update(dt)
 		else
 			for i = 1, length do
 				local collision = collisions[i]
+				print(("Collision with %s."):format(collision.other.properties.kill))
 
 				-- We collided on bottom
 				-- Entity is on the ground

@@ -4,6 +4,7 @@ require('src.components.Animation')
 require('src.components.Body')
 require('src.components.Crouch')
 require('src.components.Fall')
+require('src.components.Health')
 require('src.components.Input')
 require('src.components.Jump')
 require('src.components.Movement')
@@ -12,11 +13,24 @@ require('src.components.SpawnPoint')
 require('src.components.Sprite')
 require('src.components.Stand')
 
-local Animation, Body, Crouch, Fall, Input, Jump, Movement, Slide, SpawnPoint, Sprite, Stand = Component.load({
+local
+Animation,
+Body,
+Crouch,
+Fall,
+Health,
+Input,
+Jump,
+Movement,
+Slide,
+SpawnPoint,
+Sprite,
+Stand = Component.load({
 	'Animation',
 	'Body',
 	'Crouch',
 	'Fall',
+	'Health',
 	'Input',
 	'Jump',
 	'Movement',
@@ -46,6 +60,7 @@ local function Player()
 	entity:add(Body(size))
 	entity:add(Crouch())
 	entity:add(Fall())
+	entity:add(Health(40))
 	entity:add(Input())
 	entity:add(Jump())
 	entity:add(Movement())
