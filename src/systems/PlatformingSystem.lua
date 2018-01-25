@@ -48,7 +48,6 @@ function PlatformingSystem:update(dt)
 		if crouch.crouching then
 			fsm('crouch', entity)
 			velocity.x = velocity.x * crouch.crouch_modifier
-			hitbox.h = 7
 		else
 			hitbox.h = 14
 		end

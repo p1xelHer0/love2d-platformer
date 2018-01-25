@@ -32,9 +32,8 @@ function CollisionSystem:update(dt)
     --
 		-- the other way around, we need to move the character up
 		if crouch.crouch_start_frame then
-			position.y = position.y + 7
+			position.y = position.y + 6
 		elseif crouch.crouch_stop_frame then
-			position.y = position.y - 7
 		end
 
 		-- New position according to velocity and delta
@@ -59,7 +58,6 @@ function CollisionSystem:update(dt)
 		else
 			for i = 1, length do
 				local collision = collisions[i]
-				print(("Collision with %s."):format(collision.other.properties.kill))
 
 				-- We collided on bottom
 				-- Entity is on the ground

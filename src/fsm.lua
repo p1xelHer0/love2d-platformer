@@ -1,4 +1,5 @@
 local function fsm(event, entity)
+	local body = entity:get('Body')
 	local jump = entity:get('Jump')
 	local crouch = entity:get('Crouch')
 	local fall = entity:get('Fall')
@@ -32,6 +33,7 @@ local function fsm(event, entity)
 
 	elseif event == 'crouch' then
 		crouch.crouching =	true
+		body.hitbox.h = 8
 
 		stand.standing =		false
 	end
