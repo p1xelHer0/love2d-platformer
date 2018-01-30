@@ -1,4 +1,7 @@
-local fsm = require('src.fsm')
+local Crouch = require('src.components.Crouch')
+local Jump = require('src.components.Jump')
+local Movement = require('src.components.Movement')
+
 local InputSystem = class('InputSystem', System)
 
 function InputSystem:initialize()
@@ -7,41 +10,20 @@ end
 
 local function can_jump(entity)
 	local crouch = entity:get('Crouch')
-	local jump = entity:get('Jump')
-	local slide = entity:get('Slide')
-	local stand = entity:get('Stand')
 
-	if not jump then return false end
-	if not stand then return false end
-
-	-- We can only jump if we have released the jump-button the frame before
-	if jump.jump_input_stop then
-		-- We cant jump while crouching
-		if crouch.crouching then
-			return false
-		-- We can always jump while standing
-		elseif stand.standing then
-			return true
-		-- We only have a set amount of jump in the air or sliding
-		elseif jump.jumping or slide.sliding then
-			if jump.jump_count < jump.jump_count_max then
-				return true
-			end
-		end
+	-- We cant jump while crouching
+	if crouch then
+		return false
 	end
 
-	return false
+	return true
 end
 
 local function can_crouch(entity)
-	local crouch = entity:get('Crouch')
 	local stand = entity:get('Stand')
 
-	if not crouch then return false end
-	if not stand then return false end
-
-	-- We can onlt crouch while standing
-	if stand.standing then
+	-- We can only crouch while standing
+	if stand then
 		return true
 	end
 
@@ -50,10 +32,10 @@ end
 
 function InputSystem:update(dt)
 	for _, entity in pairs(self.targets) do
-		local movement = entity:get('Movement')
-
 		local crouch = entity:get('Crouch')
+		local direction = entity:get('Direction')
 		local jump = entity:get('Jump')
+		local movement = entity:get('Movement')
 
 		-- WASD and Space as of now for input
 		local left, right, down, space =
@@ -64,54 +46,30 @@ function InputSystem:update(dt)
 
 		-- Update movement and direction according to L/R
 		if left and not right then
-			movement.moving = true
-			movement.direction = -1
+			if not movement then
+				entity:add(Movement())
+			end
+			direction.value = -1
 		elseif right and not left then
-			movement.moving = true
-			movement.direction = 1
+			if not movement then
+				entity:add(Movement())
+			end
+			direction.value = 1
 		else
-			movement.moving = false
+			if movement then entity:remove('Movement') end
 		end
 
-		-- Reset
-		crouch.crouch_start_frame,
-		crouch.crouch_stop_frame,
-		jump.jump_start_frame,
-		jump.jump_stop_frame =
-		false,
-		false,
-		false,
-		false
+		if space and can_jump(entity) then
+			if not jump then entity:add(Jump()) end
+		end
 
-		-- We let go of space, this means we can try to jump again
-		if not space then
-			jump.jump_input_stop = true
-		-- We try to jump
-		elseif space then
-			if can_jump(entity) then
-				fsm('jump', entity)
-				jump.jumping = true
-				jump.jump_start_frame = true
-				jump.jump_input_stop = false
-			end
+		if down and can_crouch(entity) then
+			if not crouch then entity:add(Crouch()) end
 		end
 
 		if not down then
-			if crouch.crouching then
-				crouch.crouch_stop_frame = true
-			end
-			crouch.crouching = false
-		-- We try to crouch
-		elseif down then
-			if can_crouch(entity) then
-				if not crouch.crouching then
-					-- First frame of crouching
-					fsm('crouch', entity)
-					crouch.crouch_start_frame = true
-				else
-					-- Rest of frames crouching
-					crouch.crouching = true
-				end
+			if crouch then
+				if crouch.can_stand then entity:remove('Crouch') end
 			end
 		end
 	end
@@ -120,7 +78,6 @@ end
 function InputSystem:requires()
 	return {
 		'Input',
-		'Movement',
 	}
 end
 

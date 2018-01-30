@@ -15,10 +15,17 @@ local Level = require('src.entities.Level')
 -- Systems
 local AnimationSystem = require('src.systems.AnimationSystem')
 local CollisionSystem = require('src.systems.CollisionSystem')
+
 local InputSystem = require('src.systems.InputSystem')
+
+local MovementSystem = require('src.systems.MovementSystem')
+local StandSystem = require('src.systems.StandSystem')
+local JumpSystem = require('src.systems.JumpSystem')
+local CrouchSystem = require('src.systems.CrouchSystem')
+local SlideSystem = require('src.systems.SlideSystem')
+
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local PhysicsSystem = require('src.systems.PhysicsSystem')
-local PlatformingSystem = require('src.systems.PlatformingSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 
 -- Debugging systems
@@ -39,23 +46,25 @@ function love.load()
 	love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
 
 	engine = Engine()
-
-	engine:addEntity(Player())
-	engine:addSystem(InputSystem())
-
 	local level = Level('assets/levels/level_test.lua')
-	engine:addEntity(level)
 
-	engine:addSystem(PlatformingSystem())
+	engine:addEntity(level)
+	engine:addEntity(Player())
+
+	engine:addSystem(InputSystem())
+	engine:addSystem(MovementSystem())
+	engine:addSystem(StandSystem())
+	engine:addSystem(JumpSystem())
+	engine:addSystem(CrouchSystem(level))
+	engine:addSystem(SlideSystem())
 	engine:addSystem(SpriteRenderingSystem())
 	if DEBUG then
 		engine:addSystem(HitboxRenderSystem())
 		engine:addSystem(DebugTextSystem())
 	end
 	engine:addSystem(PhysicsSystem(level))
-	engine:addSystem(CollisionSystem(level))
-
 	engine:addSystem(AnimationSystem())
+	engine:addSystem(CollisionSystem(level))
 	engine:addSystem(LevelRenderingSystem())
 end
 

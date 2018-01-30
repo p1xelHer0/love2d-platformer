@@ -10,14 +10,15 @@ function SpriteRenderingSystem:draw()
 		local sprite = entity:get('Sprite')
 		local animation = entity:get('Animation')
 
+		local position = entity:get('Position').coordinates
+		local direction = entity:get('Direction').value
+
 		local movement = entity:get('Movement')
 		local crouch = entity:get('Crouch')
 		local fall = entity:get('Fall')
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
-
-		local direction, position = movement.direction, movement.position
 
 		local image = sprite.image
 		local animations = animation.animations
@@ -35,7 +36,7 @@ function SpriteRenderingSystem:draw()
 			offset.x = 5
 		end
 
-		if crouch.crouching then
+		if crouch then
 			offset.y = 9
 		end
 
@@ -51,15 +52,15 @@ function SpriteRenderingSystem:draw()
 		}
 
 		-- Render the animations
-		if fall.falling then
+		if fall then
 			animations.fall:draw(unpack(draw_properties))
-		elseif crouch.crouching then
+		elseif crouch then
 			animations.crouch:draw(unpack(draw_properties))
-		elseif jump.jumping then
+		elseif jump then
 			animations.jump:draw(unpack(draw_properties))
-		elseif slide.sliding then
+		elseif slide then
 			animations.slide:draw(unpack(draw_properties))
-		elseif stand.standing then
+		elseif stand then
 			animations.stand:draw(unpack(draw_properties))
 		end
 	end

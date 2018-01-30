@@ -1,7 +1,5 @@
-local bump = require('lib.bump.bump')
-local sti = require('lib.sti.sti')
-
-local fsm = require('src.fsm')
+local Slide = require('src.components.Slide')
+local Stand = require('src.components.Stand')
 
 local CollisionSystem = class('CollisionSystem', System)
 
@@ -14,27 +12,11 @@ end
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local body = entity:get('Body')
-
-		local movement = entity:get('Movement')
-
 		local crouch = entity:get('Crouch')
-		local fall = entity:get('Fall')
-		local slide = entity:get('Slide')
-		local stand = entity:get('Stand')
 
-		local position = movement.position
+		local position = entity:get('Position').coordinates
 
 		local hitbox, velocity = body.hitbox, body.velocity
-
-		-- 7 is the amount of pixels the hitbox decreases while crouching
-    -- this way the character moves to the ground directly
-    -- instead of shrinking and then falling to the ground
-    --
-		-- the other way around, we need to move the character up
-		if crouch.crouch_start_frame then
-			position.y = position.y + 6
-		elseif crouch.crouch_stop_frame then
-		end
 
 		-- New position according to velocity and delta
 		local newPosition = vector(
@@ -51,10 +33,10 @@ function CollisionSystem:update(dt)
 			entity, newPosition.x, newPosition.y
 		)
 
-		-- No collisions, this means we cant be standing or sliding
+		-- No collisions, Entity can't be standing
 		if length == 0 then
-			stand.standing = false
-			slide.sliding = false
+			if entity:get('Stand') then entity:remove('Stand') end
+			if entity:get('Slide') then entity:remove('Slide') end
 		else
 			for i = 1, length do
 				local collision = collisions[i]
@@ -62,7 +44,8 @@ function CollisionSystem:update(dt)
 				-- We collided on bottom
 				-- Entity is on the ground
 				if collision.normal.y == -1 then
-					fsm('land', entity)
+					velocity.y = 0
+					if not entity:get('Stand') then entity:add(Stand()) end
 				end
 
 				-- We collided on top
@@ -75,9 +58,11 @@ function CollisionSystem:update(dt)
 				-- For wall jumping and sliding
 				if collision.normal.x == 1 or collision.normal.x == -1 then
 					-- We are moving downwards and colliding with a wall, we are sliding
-					if fall.falling then
-						fsm('slide', entity)
+					if entity:get('Fall') then
+						if not entity:get('Slide') then entity:add(Slide()) end
 					end
+				else
+					if entity:get('Slide') then entity:remove('Slide') end
 				end
 			end
 		end
@@ -85,12 +70,12 @@ function CollisionSystem:update(dt)
 end
 
 function CollisionSystem:onAddEntity(entity)
-	local movement = entity:get('Movement')
+	local position = entity:get('Position').coordinates
 	local body = entity:get('Body')
 	local spawn_point = entity:get('SpawnPoint')
-	local position = movement.position
 	local hitbox = body.hitbox
 
+	-- Add the Entity at the spawn_point position if present
 	if spawn_point then
 		local point = spawn_point.point
 		for _, object in pairs(self.tileMap.objects) do
@@ -111,7 +96,7 @@ end
 function CollisionSystem:requires()
 	return {
 		'Body',
-		'Movement',
+		'Position',
 	}
 end
 

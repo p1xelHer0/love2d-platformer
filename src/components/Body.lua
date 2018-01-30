@@ -8,3 +8,5 @@ function Body:initialize(size)
 
 	self.mass = 8
 end
+
+return Body

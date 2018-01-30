@@ -18,22 +18,19 @@ end
 
 function DebugTextSystem:draw()
 	for _, entity in pairs(self.targets) do
-		local movement = entity:get('Movement')
-
 		local fall = entity:get('Fall')
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
 		local crouch = entity:get('Crouch')
-
-		local position = movement.position
+		local direction = entity:get('Direction').value
 
 		local debug_data = {
-			stand.standing,
-			crouch.crouching,
-			jump.jumping,
-			fall.falling,
-			slide.sliding,
+			stand,
+			crouch,
+			jump,
+			fall,
+			slide,
 		}
 
 		-- love.graphics.setColor(0, 255, 0)
@@ -47,7 +44,7 @@ function DebugTextSystem:draw()
 		bool_to_square(debug_data[4], 50, 40 + 5)
 		love.graphics.print('slide  ', 10, 51)
 		bool_to_square(debug_data[5], 50, 51 + 5)
-
+		love.graphics.print('direction  ' .. direction, 10, 70)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end

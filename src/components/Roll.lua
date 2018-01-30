@@ -6,3 +6,5 @@ function Roll:initialize()
 
 	self.roll_current_frame = false
 end
+
+return Roll
