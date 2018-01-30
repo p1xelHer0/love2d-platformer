@@ -14,7 +14,7 @@ local BumpWorld, TileMap, Physics = Component.load({
 local function Level(tileMapPath)
 	local entity = Entity()
 
-	local world = bump.newWorld()
+	local world = bump.newWorld(8)
 	local map = sti(tileMapPath, {'bump'})
 	map:bump_init(world)
 

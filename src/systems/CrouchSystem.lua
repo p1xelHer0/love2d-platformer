@@ -29,7 +29,6 @@ function CrouchSystem:update(dt)
 
 		-- Apply velocity modifier
 		velocity.x = velocity.x * crouch.modifier
-		print('update')
 	end
 end
 

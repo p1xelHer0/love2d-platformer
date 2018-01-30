@@ -23,7 +23,7 @@ function DebugTextSystem:draw()
 		local slide = entity:get('Slide')
 		local stand = entity:get('Stand')
 		local crouch = entity:get('Crouch')
-		local direction = entity:get('Direction').value
+		local position = entity:get('Position').coordinates
 
 		local debug_data = {
 			stand,
@@ -44,7 +44,7 @@ function DebugTextSystem:draw()
 		bool_to_square(debug_data[4], 50, 40 + 5)
 		love.graphics.print('slide  ', 10, 51)
 		bool_to_square(debug_data[5], 50, 51 + 5)
-		love.graphics.print('direction  ' .. direction, 10, 70)
+		love.graphics.print('pos  ' .. position.x, 10, 70)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end

@@ -31,18 +31,18 @@ local function can_crouch(entity)
 end
 
 function InputSystem:update(dt)
+	-- ASD and Space as of now for input
+	local left, right, down, space =
+		love.keyboard.isDown('a'),
+		love.keyboard.isDown('d'),
+		love.keyboard.isDown('s'),
+		love.keyboard.isDown('space')
+
 	for _, entity in pairs(self.targets) do
 		local crouch = entity:get('Crouch')
 		local direction = entity:get('Direction')
 		local jump = entity:get('Jump')
 		local movement = entity:get('Movement')
-
-		-- WASD and Space as of now for input
-		local left, right, down, space =
-			love.keyboard.isDown('a'),
-			love.keyboard.isDown('d'),
-			love.keyboard.isDown('s'),
-			love.keyboard.isDown('space')
 
 		-- Update movement and direction according to L/R
 		if left and not right then

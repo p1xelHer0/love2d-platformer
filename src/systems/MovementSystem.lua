@@ -1,4 +1,7 @@
+local round = require('lib.lume.lume').round
+
 local MovementSystem = class('MovementSystem', System)
+
 function MovementSystem:initialize(level)
 	System.initialize(self)
 end
@@ -21,8 +24,13 @@ end
 
 function MovementSystem:onRemoveEntity(entity)
 	local velocity = entity:get('Body').velocity
+	local position = entity:get('Position').coordinates
+
 	-- Stop entity when Movement component is removed
 	velocity.x = 0
+
+	-- Round position to integer
+	position.x = round(position.x)
 end
 
 function MovementSystem:requires(entity)
@@ -30,6 +38,7 @@ function MovementSystem:requires(entity)
 		'Body',
 		'Direction',
 		'Movement',
+		'Position',
 	}
 end
 
