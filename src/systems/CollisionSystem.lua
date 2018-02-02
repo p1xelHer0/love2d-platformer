@@ -1,3 +1,4 @@
+local Jump = require('src.components.Jump')
 local Slide = require('src.components.Slide')
 local Stand = require('src.components.Stand')
 
@@ -40,6 +41,14 @@ function CollisionSystem:update(dt)
 		else
 			for i = 1, length do
 				local collision = collisions[i]
+
+				TESTER = collision.other
+
+				if collision.other.layer.name == 'Spikes' then
+					if entity:get('Jump') then entity:remove('Jump') end
+					entity:add(Jump())
+					return
+				end
 
 				-- We collided on bottom
 				-- Entity is on the ground

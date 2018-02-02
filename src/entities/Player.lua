@@ -2,6 +2,7 @@ local anim8 = require('lib.anim8.anim8')
 
 require('src.components.Animation')
 require('src.components.Body')
+require('src.components.Camera')
 require('src.components.Direction')
 require('src.components.Position')
 require('src.components.Health')
@@ -12,6 +13,7 @@ require('src.components.Sprite')
 local
 Animation,
 Body,
+Camera,
 Direction,
 Position,
 Health,
@@ -20,6 +22,7 @@ SpawnPoint,
 Sprite = Component.load({
 	'Animation',
 	'Body',
+	'Camera',
 	'Direction',
 	'Position',
 	'Health',
@@ -28,7 +31,7 @@ Sprite = Component.load({
 	'Sprite',
 })
 
-local function Player()
+local function Player(camera)
 	local entity = Entity()
 
 	local size = { w = 6, h = 14, }
@@ -46,6 +49,7 @@ local function Player()
 
 	entity:add(Animation(animations))
 	entity:add(Body(size))
+	entity:add(Camera(camera))
 	entity:add(Direction())
 	entity:add(Health(40))
 	entity:add(Input())

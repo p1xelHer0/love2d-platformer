@@ -4,9 +4,11 @@ HooECS.initialize({
 	debug = true,
 })
 
+local gamera = require('lib.gamera.gamera')
+
 vector = require('lib.hump.vector')
 
-local scrale = require('lib.scrale')
+local scrale = require('lib.scrale.scrale')
 
 -- Entities
 local Player = require('src.entities.Player')
@@ -28,6 +30,8 @@ local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local PhysicsSystem = require('src.systems.PhysicsSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 
+local CameraSystem = require('src.systems.CameraSystem')
+
 -- Debugging systems
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local DebugTextSystem = require('src.systems.DebugTextSystem')
@@ -45,11 +49,14 @@ function love.load()
 
 	love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
 
+	camera = gamera.new(0, 0, 512, 144)
+	camera:setWindow(0, 0, 256, 144)
+
 	engine = Engine()
 	local level = Level('assets/levels/level_test.lua')
 
 	engine:addEntity(level)
-	engine:addEntity(Player())
+	engine:addEntity(Player(camera))
 
 	engine:addSystem(InputSystem())
 	engine:addSystem(MovementSystem())
@@ -66,6 +73,7 @@ function love.load()
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(CollisionSystem(level))
 	engine:addSystem(LevelRenderingSystem())
+	engine:addSystem(CameraSystem())
 end
 
 function love.update(dt)
@@ -77,9 +85,12 @@ end
 function love.draw()
 	scrale.drawOnCanvas(true)
 
-	engine:draw()
-
-	scrale.draw()
+	camera:draw(
+		function()
+			engine:draw()
+			scrale.draw()
+		end
+	)
 end
 
 function love.keypressed(k)

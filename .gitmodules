@@ -25,3 +25,9 @@
 [submodule "lib/hump"]
 	path = lib/hump
 	url = https://github.com/vrld/hump
+[submodule "lib/gamera"]
+	path = lib/gamera
+	url = https://github.com/kikito/gamera
+[submodule "lib/scrale"]
+	path = lib/scrale
+	url = https://github.com/MartyMaro/scrale/
