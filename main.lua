@@ -85,12 +85,12 @@ end
 function love.draw()
 	scrale.drawOnCanvas(true)
 
-	camera:draw(
-		function()
+	-- camera:draw(
+	-- 	function()
 			engine:draw()
 			scrale.draw()
-		end
-	)
+		-- end
+	-- )
 end
 
 function love.keypressed(k)

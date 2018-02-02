@@ -63,6 +63,10 @@ function InputSystem:update(dt)
 			if not jump then entity:add(Jump()) end
 		end
 
+		if not space then
+			if jump then entity:remove('Jump') end
+		end
+
 		if down and can_crouch(entity) then
 			if not crouch then entity:add(Crouch()) end
 		end

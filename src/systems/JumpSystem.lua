@@ -5,15 +5,15 @@ end
 
 function JumpSystem:update(dt)
 	for _, entity in pairs(self.targets) do
+		local force = entity:get('Jump').force
+		local velocity = entity:get('Body').velocity
+
+		-- Apply force on entity velocity to jump
+		velocity.y = force
 	end
 end
 
 function JumpSystem:onAddEntity(entity)
-	local force = entity:get('Jump').force
-	local velocity = entity:get('Body').velocity
-
-	-- Apply force on entity velocity to jump
-	velocity.y = force
 	-- This way we can wall jump
 	if entity:get('Slide') then entity:remove('Slide') end
 end
