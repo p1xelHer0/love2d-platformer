@@ -8,8 +8,12 @@ end
 function LevelRenderingSystem:draw()
 	for _, entity in pairs(self.targets) do
 		-- Render the TileMap
-		local tileMap = entity:get('TileMap').map
-		tileMap:draw(0, 0, 1, 1)
+		self.camera:draw(
+			function(l, t, w, h)
+				local tileMap = entity:get('TileMap').map
+				tileMap:draw(-l, -t, 1, 1)
+			end
+		)
 	end
 end
 

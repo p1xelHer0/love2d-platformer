@@ -85,11 +85,7 @@ end
 function love.draw()
 	scrale.drawOnCanvas(true)
 
-	camera:draw(
-		function()
-			engine:draw()
-		end
-	)
+	engine:draw()
 
 	scrale.draw()
 end
