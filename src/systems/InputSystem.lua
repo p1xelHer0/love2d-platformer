@@ -9,14 +9,14 @@ function InputSystem:initialize()
 end
 
 local function can_jump(entity)
-	local crouch = entity:get('Crouch')
+	local stand = entity:get('Stand')
 
-	-- We cant jump while crouching
-	if crouch then
-		return false
+	-- We can only jump while standing
+	if stand then
+		return true
 	end
 
-	return true
+	return false
 end
 
 local function can_crouch(entity)

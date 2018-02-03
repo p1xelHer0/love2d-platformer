@@ -5,11 +5,16 @@ end
 
 function JumpSystem:update(dt)
 	for _, entity in pairs(self.targets) do
-		local force = entity:get('Jump').force
+		local jump = entity:get('Jump')
 		local velocity = entity:get('Body').velocity
 
 		-- Apply force on entity velocity to jump
-		velocity.y = force
+		velocity.y = jump.force
+
+		jump.time = jump.time + dt
+		if jump.time > jump.time_max then
+			entity:remove('Jump')
+		end
 	end
 end
 

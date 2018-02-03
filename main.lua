@@ -72,7 +72,7 @@ function love.load()
 	engine:addSystem(PhysicsSystem(level))
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(CollisionSystem(level))
-	engine:addSystem(LevelRenderingSystem())
+	engine:addSystem(LevelRenderingSystem(camera))
 	engine:addSystem(CameraSystem())
 end
 
@@ -85,12 +85,13 @@ end
 function love.draw()
 	scrale.drawOnCanvas(true)
 
-	-- camera:draw(
-	-- 	function()
+	camera:draw(
+		function()
 			engine:draw()
-			scrale.draw()
-		-- end
-	-- )
+		end
+	)
+
+	scrale.draw()
 end
 
 function love.keypressed(k)
