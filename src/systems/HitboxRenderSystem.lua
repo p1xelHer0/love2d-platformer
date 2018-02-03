@@ -1,7 +1,8 @@
 local HitboxRenderSystem = class('HitboxRenderSystem', System)
 
-function HitboxRenderSystem:initialize()
+function HitboxRenderSystem:initialize(camera)
 	System.initialize(self)
+	self.camera = camera
 end
 
 function HitboxRenderSystem:draw()
@@ -12,7 +13,13 @@ function HitboxRenderSystem:draw()
 		local hitbox = body.hitbox
 
 		love.graphics.setColor(255, 60, 60, 100)
-		love.graphics.rectangle('fill', position.x, position.y, hitbox.w, hitbox.h)
+
+		self.camera:draw(
+			function()
+				love.graphics.rectangle('fill', position.x, position.y, hitbox.w, hitbox.h)
+			end
+		)
+
 		love.graphics.setColor(255, 255, 255)
 	end
 end

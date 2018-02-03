@@ -39,7 +39,7 @@ local DebugTextSystem = require('src.systems.DebugTextSystem')
 DEBUG = true
 
 function love.load()
-	scrale.init(256, 144, {
+	scrale.init(512, 288, {
 		fillHorizontally = false,
 		fillVertically = false,
 		scaleFilter = "nearest",
@@ -49,8 +49,8 @@ function love.load()
 
 	love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
 
-	camera = gamera.new(0, 0, 512, 144)
-	camera:setWindow(0, 0, 256, 144)
+	camera = gamera.new(0, 0, 1024, 576)
+	camera:setWindow(0, 0, 512, 288)
 
 	engine = Engine()
 	local level = Level('assets/levels/level_test.lua')
@@ -64,9 +64,9 @@ function love.load()
 	engine:addSystem(JumpSystem())
 	engine:addSystem(CrouchSystem(level))
 	engine:addSystem(SlideSystem())
-	engine:addSystem(SpriteRenderingSystem())
+	engine:addSystem(SpriteRenderingSystem(camera))
 	if DEBUG then
-		engine:addSystem(HitboxRenderSystem())
+		engine:addSystem(HitboxRenderSystem(camera))
 		engine:addSystem(DebugTextSystem())
 	end
 	engine:addSystem(PhysicsSystem(level))

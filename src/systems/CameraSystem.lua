@@ -9,7 +9,7 @@ function CameraSystem:update(dt)
 		local camera = entity:get('Camera').camera
 		local position = entity:get('Position').coordinates
 
-		camera:setPosition(position.x - 3, position.y - 7)
+		camera:setPosition(position.x, position.y)
 	end
 end
 

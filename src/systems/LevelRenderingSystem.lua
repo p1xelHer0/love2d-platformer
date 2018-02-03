@@ -9,9 +9,9 @@ function LevelRenderingSystem:draw()
 	for _, entity in pairs(self.targets) do
 		-- Render the TileMap
 		self.camera:draw(
-			function(l, t, w, h)
+			function(x, y)
 				local tileMap = entity:get('TileMap').map
-				tileMap:draw(-l, -t, 1, 1)
+				tileMap:draw(-x, -y, 1, 1)
 			end
 		)
 	end

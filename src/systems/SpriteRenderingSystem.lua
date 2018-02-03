@@ -1,7 +1,8 @@
 local SpriteRenderingSystem = class('SpriteRenderingSystem', System)
 
-function SpriteRenderingSystem:initialize()
+function SpriteRenderingSystem:initialize(camera)
 	System.initialize(self)
+	self.camera = camera
 end
 
 function SpriteRenderingSystem:draw()
@@ -52,17 +53,21 @@ function SpriteRenderingSystem:draw()
 		}
 
 		-- Render the animations
-		if fall then
-			animations.fall:draw(unpack(draw_properties))
-		elseif crouch then
-			animations.crouch:draw(unpack(draw_properties))
-		elseif jump then
-			animations.jump:draw(unpack(draw_properties))
-		elseif slide then
-			animations.slide:draw(unpack(draw_properties))
-		elseif stand then
-			animations.stand:draw(unpack(draw_properties))
-		end
+		self.camera:draw(
+			function()
+				if fall then
+					animations.fall:draw(unpack(draw_properties))
+				elseif crouch then
+					animations.crouch:draw(unpack(draw_properties))
+				elseif jump then
+					animations.jump:draw(unpack(draw_properties))
+				elseif slide then
+					animations.slide:draw(unpack(draw_properties))
+				elseif stand then
+					animations.stand:draw(unpack(draw_properties))
+				end
+			end
+		)
 	end
 end
 
