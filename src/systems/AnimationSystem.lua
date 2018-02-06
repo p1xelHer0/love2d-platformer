@@ -6,9 +6,11 @@ end
 
 function AnimationSystem:update(dt)
 	for _, entity in pairs(self.targets) do
-		local animations = entity:get('Animation').animations
+		local animation = entity:get('Animation').current
 
-		animations.stand:update(dt)
+		if animation then
+			animation:update(dt)
+		end
 	end
 end
 

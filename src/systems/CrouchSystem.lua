@@ -14,9 +14,11 @@ function CrouchSystem:update(dt)
 		local velocity = body.velocity
 		local hitbox = body.hitbox
 
+		crouch.time = crouch.time + dt
+
 		-- Query the world to see if we can stand
-		local items, length
-		items, length = self.bumpWorld:queryRect(
+		local _, length
+		_, length = self.bumpWorld:queryRect(
 			position.x, position.y - 7, hitbox.w, hitbox.h + 7
 		)
 

@@ -33,6 +33,7 @@ local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 local CameraSystem = require('src.systems.CameraSystem')
 
 -- Debugging systems
+local CameraDebugSystem = require('src.systems.CameraDebugSystem')
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local DebugTextSystem = require('src.systems.DebugTextSystem')
 
@@ -65,15 +66,17 @@ function love.load()
 	engine:addSystem(CrouchSystem(level))
 	engine:addSystem(SlideSystem())
 	engine:addSystem(SpriteRenderingSystem(camera))
-	if DEBUG then
-		engine:addSystem(HitboxRenderSystem(camera))
-		engine:addSystem(DebugTextSystem())
-	end
 	engine:addSystem(PhysicsSystem(level))
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(CollisionSystem(level))
 	engine:addSystem(LevelRenderingSystem(camera))
 	engine:addSystem(CameraSystem())
+
+	if DEBUG then
+		engine:addSystem(CameraDebugSystem(camera))
+		engine:addSystem(HitboxRenderSystem(camera))
+		engine:addSystem(DebugTextSystem())
+	end
 end
 
 function love.update(dt)

@@ -22,7 +22,7 @@ function SpriteRenderingSystem:draw()
 		local stand = entity:get('Stand')
 
 		local image = sprite.image
-		local animations = animation.animations
+		local animations, current = animation.animations, animation.current
 
 		-- Sprite is 2px taller than the sprite, offset accordingly
 		local offset = {
@@ -52,20 +52,22 @@ function SpriteRenderingSystem:draw()
 			offset.y,
 		}
 
+		if fall then
+			current = animations.fall
+		elseif crouch then
+			current = animations.crouch
+		elseif jump then
+			current = animations.jump
+		elseif slide then
+			current = animations.slide
+		else
+			current = animations.stand
+		end
+
 		-- Render the animations
 		self.camera:draw(
 			function()
-				if fall then
-					animations.fall:draw(unpack(draw_properties))
-				elseif crouch then
-					animations.crouch:draw(unpack(draw_properties))
-				elseif jump then
-					animations.jump:draw(unpack(draw_properties))
-				elseif slide then
-					animations.slide:draw(unpack(draw_properties))
-				elseif stand then
-					animations.stand:draw(unpack(draw_properties))
-				end
+				current:draw(unpack(draw_properties))
 			end
 		)
 	end
