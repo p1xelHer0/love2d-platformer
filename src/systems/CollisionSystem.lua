@@ -1,3 +1,4 @@
+local Airborne = require('src.components.Airborne')
 local Jump = require('src.components.Jump')
 local Slide = require('src.components.Slide')
 local Stand = require('src.components.Stand')
@@ -13,7 +14,6 @@ end
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local body = entity:get('Body')
-		local crouch = entity:get('Crouch')
 
 		local position = entity:get('Position').coordinates
 
@@ -36,13 +36,13 @@ function CollisionSystem:update(dt)
 
 		-- No collisions, Entity can't be standing
 		if length == 0 then
+			if not entity:get('Airborne') then entity:add(Airborne()) end
+
 			if entity:get('Stand') then entity:remove('Stand') end
 			if entity:get('Slide') then entity:remove('Slide') end
 		else
 			for i = 1, length do
 				local collision = collisions[i]
-
-				TESTER = collision.other
 
 				if collision.other.layer.name == 'Spikes' then
 					if entity:get('Jump') then entity:remove('Jump') end

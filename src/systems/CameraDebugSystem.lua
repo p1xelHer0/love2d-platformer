@@ -15,7 +15,7 @@ function CameraDebugSystem:draw()
 
 		self.camera:draw(
 			function()
-				love.graphics.rectangle('fill', x, y, 2, 2)
+				love.graphics.rectangle('fill', x, y, 1, 1)
 			end
 		)
 

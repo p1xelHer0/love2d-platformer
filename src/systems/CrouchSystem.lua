@@ -24,9 +24,9 @@ function CrouchSystem:update(dt)
 
 		-- TODO This might need improvment...
 		if length > 1 then
-			crouch.can_stand = false
+			crouch.cancelable = false
 		else
-			crouch.can_stand = true
+			crouch.cancelable = true
 		end
 
 		-- Apply velocity modifier

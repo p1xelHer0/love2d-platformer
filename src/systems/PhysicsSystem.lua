@@ -26,7 +26,7 @@ function PhysicsSystem:update(dt)
 		velocity.y = clamp(
 			velocity.y + body.mass * self.gravity.y * dt,
 			-120,
-			120
+			180
 		)
 	end
 end

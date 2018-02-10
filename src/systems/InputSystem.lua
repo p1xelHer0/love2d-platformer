@@ -9,13 +9,19 @@ function InputSystem:initialize()
 end
 
 local function can_jump(entity)
+	local airborne = entity:get('Airborne')
 	local crouch = entity:get('Crouch')
+	local input = entity:get('Input')
+	local slide = entity:get('Slide')
 	local stand = entity:get('Stand')
 
 	-- We can only jump while standing
 	if crouch then
 		return false
-	elseif stand then
+	-- TODO fix for double jump
+	elseif airborne and input.jump_canceled then
+		return true
+	elseif stand or slide then
 		return true
 	end
 
@@ -44,6 +50,7 @@ function InputSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local crouch = entity:get('Crouch')
 		local direction = entity:get('Direction')
+		local input = entity:get('Input')
 		local jump = entity:get('Jump')
 		local movement = entity:get('Movement')
 
@@ -63,11 +70,19 @@ function InputSystem:update(dt)
 		end
 
 		if space and can_jump(entity) then
-			if not jump then entity:add(Jump()) end
+			if not jump then
+				entity:add(Jump())
+				input.jump_canceled = false
+			end
 		end
 
 		if not space then
-			if jump then entity:remove('Jump') end
+			input.jump_canceled = true
+			if jump then
+				if jump.cancelable then
+					entity:remove('Jump')
+				end
+			end
 		end
 
 		if down and can_crouch(entity) then
@@ -76,7 +91,7 @@ function InputSystem:update(dt)
 
 		if not down then
 			if crouch then
-				if crouch.can_stand then entity:remove('Crouch') end
+				if crouch.cancelable then entity:remove('Crouch') end
 			end
 		end
 	end

@@ -9,9 +9,11 @@ function StandSystem:update(dt)
 end
 
 function StandSystem:onAddEntity(entity)
+	local airborne = entity:get('Airborne')
 	local jump = entity:get('Jump')
 
 	-- Standing means landing, we are no longer jumping
+	if airborne then entity:remove('Airborne') end
 	if jump then entity:remove('Jump') end
 end
 

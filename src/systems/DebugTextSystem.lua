@@ -18,6 +18,7 @@ end
 
 function DebugTextSystem:draw()
 	for _, entity in pairs(self.targets) do
+		local airborne = entity:get('Airborne')
 		local fall = entity:get('Fall')
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
@@ -31,6 +32,7 @@ function DebugTextSystem:draw()
 			jump,
 			fall,
 			slide,
+			airborne,
 		}
 
 		-- love.graphics.setColor(0, 255, 0)
@@ -44,7 +46,9 @@ function DebugTextSystem:draw()
 		bool_to_square(debug_data[4], 50, 40 + 5)
 		love.graphics.print('slide  ', 10, 51)
 		bool_to_square(debug_data[5], 50, 51 + 5)
-		love.graphics.print('pos  ' .. position.x, 10, 70)
+		love.graphics.print('air  ', 10, 62)
+		bool_to_square(debug_data[6], 50, 62 + 5)
+		love.graphics.print('pos  ' .. position.x, 10, 73)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
