@@ -15,6 +15,7 @@ end
 function SlideSystem:onAddEntity(entity)
 	local airborne = entity:get('Airborne')
 	local fall = entity:get('fall')
+	local input = entity:get('Input')
 	local jump = entity:get('Jump')
 
 	-- We are sliding, no longer jumping
@@ -22,6 +23,8 @@ function SlideSystem:onAddEntity(entity)
 	if fall then entity:remove('Fall') end
 	if airborne then entity:remove('Airborne') end
 	if jump then entity:remove('Jump') end
+
+	if input then input.jump_count = 0 end
 end
 
 function SlideSystem:onRemoveEntity(entity)

@@ -15,14 +15,18 @@ local function can_jump(entity)
 	local slide = entity:get('Slide')
 	local stand = entity:get('Stand')
 
+	print(input.jump_count)
+	print(input.jump_count_max)
+
 	-- We can only jump while standing
-	if crouch then
-		return false
-	-- TODO fix for double jump
-	elseif airborne and input.jump_canceled then
-		return true
-	elseif stand or slide then
-		return true
+	if input.jump_canceled then
+		if crouch then
+			return false
+		elseif airborne or slide then
+			return input.jump_canceled and input.jump_count < input.jump_count_max
+		elseif stand then
+			return true
+		end
 	end
 
 	return false
@@ -73,6 +77,7 @@ function InputSystem:update(dt)
 			if not jump then
 				entity:add(Jump())
 				input.jump_canceled = false
+				input.jump_count = input.jump_count + 1
 			end
 		end
 
