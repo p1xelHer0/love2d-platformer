@@ -11,6 +11,8 @@ function Jump:initialize()
 	self.cancelable = false
 
 	self.force = -120
+
+	self.wall = false
 end
 
 return Jump
