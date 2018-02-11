@@ -5,8 +5,8 @@ function Jump:initialize()
 	self.count_max = 2
 
 	self.time = 0
-	self.time_min = 0.05
-	self.time_max = 0.2
+	self.time_min = 0.01
+	self.time_max = 0.3
 
 	self.cancelable = false
 

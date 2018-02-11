@@ -14,7 +14,7 @@ end
 
 function SlideSystem:onAddEntity(entity)
 	local airborne = entity:get('Airborne')
-	local fall = entity:get('fall')
+	local fall = entity:get('Fall')
 	local input = entity:get('Input')
 	local jump = entity:get('Jump')
 

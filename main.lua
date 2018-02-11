@@ -8,7 +8,7 @@ local gamera = require('lib.gamera.gamera')
 
 vector = require('lib.hump.vector')
 
-local scrale = require('lib.scrale.scrale')
+scrale = require('lib.scrale.scrale')
 
 -- Entities
 local Player = require('src.entities.Player')

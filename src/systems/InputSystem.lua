@@ -22,7 +22,7 @@ local function can_jump(entity)
 	if input.jump_canceled then
 		if crouch then
 			return false
-		elseif airborne or slide then
+		elseif airborne then
 			return input.jump_canceled and input.jump_count < input.jump_count_max
 		elseif stand then
 			return true
@@ -52,51 +52,53 @@ function InputSystem:update(dt)
 		love.keyboard.isDown('space')
 
 	for _, entity in pairs(self.targets) do
-		local crouch = entity:get('Crouch')
-		local direction = entity:get('Direction')
 		local input = entity:get('Input')
-		local jump = entity:get('Jump')
-		local movement = entity:get('Movement')
+		if not input.lock then
+			local crouch = entity:get('Crouch')
+			local direction = entity:get('Direction')
+			local jump = entity:get('Jump')
+			local movement = entity:get('Movement')
 
-		-- Update movement and direction according to L/R
-		if left and not right then
-			if not movement then
-				entity:add(Movement())
+			-- Update movement and direction according to L/R
+			if left and not right then
+				if not movement then
+					entity:add(Movement())
+				end
+				direction.value = -1
+			elseif right and not left then
+				if not movement then
+					entity:add(Movement())
+				end
+				direction.value = 1
+			else
+				if movement then entity:remove('Movement') end
 			end
-			direction.value = -1
-		elseif right and not left then
-			if not movement then
-				entity:add(Movement())
-			end
-			direction.value = 1
-		else
-			if movement then entity:remove('Movement') end
-		end
 
-		if space and can_jump(entity) then
-			if not jump then
-				entity:add(Jump())
-				input.jump_canceled = false
-				input.jump_count = input.jump_count + 1
-			end
-		end
-
-		if not space then
-			input.jump_canceled = true
-			if jump then
-				if jump.cancelable then
-					entity:remove('Jump')
+			if space and can_jump(entity) then
+				if not jump then
+					entity:add(Jump())
+					input.jump_canceled = false
+					input.jump_count = input.jump_count + 1
 				end
 			end
-		end
 
-		if down and can_crouch(entity) then
-			if not crouch then entity:add(Crouch()) end
-		end
+			if not space then
+				input.jump_canceled = true
+				if jump then
+					if jump.cancelable then
+						entity:remove('Jump')
+					end
+				end
+			end
 
-		if not down then
-			if crouch then
-				if crouch.cancelable then entity:remove('Crouch') end
+			if down and can_crouch(entity) then
+				if not crouch then entity:add(Crouch()) end
+			end
+
+			if not down then
+				if crouch then
+					if crouch.cancelable then entity:remove('Crouch') end
+				end
 			end
 		end
 	end

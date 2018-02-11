@@ -45,21 +45,19 @@ function CollisionSystem:update(dt)
 				local collision = collisions[i]
 
 				if collision.other.layer.name == 'Spikes' then
-					if entity:get('Jump') then entity:remove('Jump') end
-					entity:add(Jump())
-					return
 				end
 
 				-- We collided on bottom
 				-- Entity is on the ground
 				if collision.normal.y == -1 then
-					velocity.y = 0
 					if not entity:get('Stand') then entity:add(Stand()) end
+					velocity.y = 0
 				end
 
 				-- We collided on top
 				-- Entity is on the ceiling
 				if collision.normal.y == 1 then
+					if entity:get('Jump') then entity:remove('Jump') end
 					velocity.y = 0
 				end
 
@@ -70,8 +68,8 @@ function CollisionSystem:update(dt)
 					if entity:get('Fall') then
 						if not entity:get('Slide') then entity:add(Slide()) end
 					end
-				else
-					if entity:get('Slide') then entity:remove('Slide') end
+				-- else
+				-- 	if entity:get('Slide') then entity:remove('Slide') end
 				end
 			end
 		end
