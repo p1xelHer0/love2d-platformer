@@ -12,19 +12,18 @@ local function can_jump(entity)
 	local airborne = entity:get('Airborne')
 	local crouch = entity:get('Crouch')
 	local input = entity:get('Input')
-	local slide = entity:get('Slide')
-	local stand = entity:get('Stand')
+	local grounded = entity:get('Grounded')
 
 	print(input.jump_count)
 	print(input.jump_count_max)
 
-	-- We can only jump while standing
+	-- We can only jump while grounding
 	if input.jump_canceled then
 		if crouch then
 			return false
 		elseif airborne then
 			return input.jump_canceled and input.jump_count < input.jump_count_max
-		elseif stand then
+		elseif grounded then
 			return true
 		end
 	end
@@ -33,10 +32,10 @@ local function can_jump(entity)
 end
 
 local function can_crouch(entity)
-	local stand = entity:get('Stand')
+	local grounded = entity:get('Grounded')
 
-	-- We can only crouch while standing
-	if stand then
+	-- We can only crouch while grounding
+	if grounded then
 		return true
 	end
 

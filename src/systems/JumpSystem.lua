@@ -30,6 +30,10 @@ end
 
 function JumpSystem:onAddEntity(entity)
 	local jump = entity:get('Jump')
+
+	if entity:get('Grounded') then entity:remove('Grounded') end
+	if not entity:get('Airborne') then entity:add(Airborne()) end
+
 	-- This way we can wall jump
 	if entity:get('Slide') then
 		jump.wall = true
@@ -39,10 +43,6 @@ function JumpSystem:onAddEntity(entity)
 			input.lock = true
 		end
 	end
-
-	if entity:get('Stand') then entity:remove('Stand') end
-
-	if not entity:get('Airborne') then entity:add(Airborne()) end
 end
 
 function JumpSystem:onRemoveEntity(entity)

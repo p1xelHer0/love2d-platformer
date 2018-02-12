@@ -12,6 +12,7 @@ scrale = require('lib.scrale.scrale')
 
 -- Entities
 local Player = require('src.entities.Player')
+local Box = require('src.entities.Box')
 local Level = require('src.entities.Level')
 
 -- Systems
@@ -29,6 +30,7 @@ local SlideSystem = require('src.systems.SlideSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local PhysicsSystem = require('src.systems.PhysicsSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
+local AnimationRenderingSystem = require('src.systems.AnimationRenderingSystem')
 
 local CameraSystem = require('src.systems.CameraSystem')
 
@@ -58,6 +60,7 @@ function love.load()
 
 	engine:addEntity(level)
 	engine:addEntity(Player(camera))
+	engine:addEntity(Box())
 
 	engine:addSystem(InputSystem())
 	engine:addSystem(MovementSystem())
@@ -66,6 +69,7 @@ function love.load()
 	engine:addSystem(CrouchSystem(level))
 	engine:addSystem(SlideSystem())
 	engine:addSystem(SpriteRenderingSystem(camera))
+	engine:addSystem(AnimationRenderingSystem(camera))
 	engine:addSystem(PhysicsSystem(level))
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(CollisionSystem(level))

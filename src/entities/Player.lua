@@ -18,8 +18,7 @@ Direction,
 Position,
 Health,
 Input,
-SpawnPoint,
-Sprite = Component.load({
+SpawnPoint = Component.load({
 	'Animation',
 	'Body',
 	'Camera',
@@ -28,7 +27,6 @@ Sprite = Component.load({
 	'Health',
 	'Input',
 	'SpawnPoint',
-	'Sprite',
 })
 
 local function Player(camera)
@@ -40,14 +38,14 @@ local function Player(camera)
 	local g = anim8.newGrid(16, 16, image:getWidth(), image:getHeight(), 0)
 
 	local animations = {
-		stand = anim8.newAnimation(g('1-2', 1), 0.5),
+		grounded = anim8.newAnimation(g('1-2', 1), 0.5),
 		slide = anim8.newAnimation(g('7-1', 1), 0.5),
 		jump = anim8.newAnimation(g('4-1', 1), 0.5),
 		crouch = anim8.newAnimation(g('5-1', 1), 0.5),
 		fall = anim8.newAnimation(g('6-1', 1), 0.5),
 	}
 
-	entity:add(Animation(animations))
+	entity:add(Animation(image, animations))
 	entity:add(Body(size))
 	entity:add(Camera(camera))
 	entity:add(Direction())
@@ -55,7 +53,6 @@ local function Player(camera)
 	entity:add(Input())
 	entity:add(Position())
 	entity:add(SpawnPoint('player'))
-	entity:add(Sprite(image))
 
 	return entity
 end

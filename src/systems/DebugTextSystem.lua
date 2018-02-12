@@ -22,12 +22,12 @@ function DebugTextSystem:draw()
 		local fall = entity:get('Fall')
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
-		local stand = entity:get('Stand')
+		local grounded = entity:get('Grounded')
 		local crouch = entity:get('Crouch')
 		local position = entity:get('Position').coordinates
 
 		local debug_data = {
-			stand,
+			grounded,
 			crouch,
 			jump,
 			fall,
@@ -36,7 +36,7 @@ function DebugTextSystem:draw()
 		}
 
 		-- love.graphics.setColor(0, 255, 0)
-		love.graphics.print('stand  ', 10, 7)
+		love.graphics.print('grounded  ', 10, 7)
 		bool_to_square(debug_data[1], 50, 7 + 5)
 		love.graphics.print('crouch ', 10, 18)
 		bool_to_square(debug_data[2], 50, 18 + 5)

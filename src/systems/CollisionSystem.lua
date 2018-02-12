@@ -1,7 +1,7 @@
 local Airborne = require('src.components.Airborne')
 local Jump = require('src.components.Jump')
 local Slide = require('src.components.Slide')
-local Stand = require('src.components.Stand')
+local Grounded = require('src.components.Grounded')
 
 local CollisionSystem = class('CollisionSystem', System)
 
@@ -34,23 +34,24 @@ function CollisionSystem:update(dt)
 			entity, newPosition.x, newPosition.y
 		)
 
-		-- No collisions, Entity can't be standing
+		-- No collisions, Entity can't be grounding
 		if length == 0 then
 			if not entity:get('Airborne') then entity:add(Airborne()) end
 
-			if entity:get('Stand') then entity:remove('Stand') end
+			if entity:get('Grounded') then entity:remove('Grounded') end
 			if entity:get('Slide') then entity:remove('Slide') end
 		else
 			for i = 1, length do
 				local collision = collisions[i]
 
-				if collision.other.layer.name == 'Spikes' then
-				end
+				-- if collision.other.layer.name == 'Spikes' then
+				-- -- example of collision with Tiled layer
+				-- end
 
 				-- We collided on bottom
 				-- Entity is on the ground
 				if collision.normal.y == -1 then
-					if not entity:get('Stand') then entity:add(Stand()) end
+					if not entity:get('Grounded') then entity:add(Grounded()) end
 					velocity.y = 0
 				end
 
@@ -66,10 +67,8 @@ function CollisionSystem:update(dt)
 				if collision.normal.x == 1 or collision.normal.x == -1 then
 					-- We are moving downwards and colliding with a wall, we are sliding
 					if entity:get('Fall') then
-						if not entity:get('Slide') then entity:add(Slide()) end
+						-- if not entity:get('Slide') then entity:add(Slide()) end
 					end
-				-- else
-				-- 	if entity:get('Slide') then entity:remove('Slide') end
 				end
 			end
 		end

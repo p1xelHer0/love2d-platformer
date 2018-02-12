@@ -33,15 +33,9 @@ function CameraSystem:update(dt)
 		-- 	end
 		-- end
 
-		-- TODO better solution, crouching as always
-		-- if crouch then
-		-- 	self.target.y = self.target.y - 7
-
-		-- 	-- move the camera down if the entity has crouched for a certian time
-		-- 	if crouch.time > 1 then
-		-- 		self.target.y = self.target.y + camera_window_height / 6
-		-- 	end
-		-- end
+		if crouch then
+			self.target.y = self.target.y - 7
+		end
 
 		self.target = self.target
 

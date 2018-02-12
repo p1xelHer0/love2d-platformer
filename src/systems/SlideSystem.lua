@@ -1,4 +1,5 @@
 local SlideSystem = class('SlideSystem', System)
+
 function SlideSystem:initialize(level)
 	System.initialize(self)
 end
@@ -14,13 +15,11 @@ end
 
 function SlideSystem:onAddEntity(entity)
 	local airborne = entity:get('Airborne')
-	local fall = entity:get('Fall')
 	local input = entity:get('Input')
 	local jump = entity:get('Jump')
 
 	-- We are sliding, no longer jumping
 	-- i.e. landing on a wall
-	if fall then entity:remove('Fall') end
 	if airborne then entity:remove('Airborne') end
 	if jump then entity:remove('Jump') end
 
