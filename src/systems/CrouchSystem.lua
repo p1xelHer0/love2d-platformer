@@ -10,6 +10,12 @@ function CrouchSystem:update(dt)
 		local body = entity:get('Body')
 		local crouch = entity:get('Crouch')
 		local position = entity:get('Position').coordinates
+		local airborne = entity:get('Airborne')
+
+		-- We cant crouch when airborne
+		if airborne then
+			entity:remove('Crouch')
+		end
 
 		local velocity = body.velocity
 		local hitbox = body.hitbox
@@ -17,8 +23,7 @@ function CrouchSystem:update(dt)
 		crouch.time = crouch.time + dt
 
 		-- Query the world to see if we can stand
-		local _, length
-		_, length = self.bumpWorld:queryRect(
+		local _, length = self.bumpWorld:queryRect(
 			position.x, position.y - 7, hitbox.w, hitbox.h + 7
 		)
 
