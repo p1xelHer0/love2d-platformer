@@ -12,10 +12,6 @@ function CrouchSystem:update(dt)
 		local position = entity:get('Position').coordinates
 		local airborne = entity:get('Airborne')
 
-		-- We cant crouch when airborne
-		if airborne then
-			entity:remove('Crouch')
-		end
 
 		local velocity = body.velocity
 		local hitbox = body.hitbox
@@ -32,6 +28,12 @@ function CrouchSystem:update(dt)
 			crouch.cancelable = false
 		else
 			crouch.cancelable = true
+		end
+
+		-- We cant crouch when airborne
+		-- But we need to check if we actually can uncrouch!
+		if airborne then
+			if crouch.cancelable then entity:remove('Crouch') end
 		end
 
 		-- Apply velocity modifier

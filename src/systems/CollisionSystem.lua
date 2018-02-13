@@ -1,3 +1,4 @@
+local round = require('lib.lume.lume').round
 local Airborne = require('src.components.Airborne')
 local Jump = require('src.components.Jump')
 local Slide = require('src.components.Slide')
@@ -33,6 +34,10 @@ function CollisionSystem:update(dt)
 		position.x, position.y, collisions, length = self.bumpWorld:move(
 			entity, newPosition.x, newPosition.y
 		)
+
+		-- pixels, wooho
+		position.x = round(position.x)
+		position.y = round(position.y)
 
 		-- No collisions, Entity can't be grounding
 		if length == 0 then
