@@ -79,7 +79,7 @@ function love.load()
 	if DEBUG then
 		engine:addSystem(CameraDebugSystem(camera))
 		engine:addSystem(HitboxRenderSystem(camera))
-		engine:addSystem(DebugTextSystem())
+		engine:addSystem(DebugTextSystem(camera))
 	end
 end
 

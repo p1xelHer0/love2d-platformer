@@ -12,8 +12,9 @@ local function bool_to_square(bool, x, y)
 	love.graphics.setColor(255, 255, 255)
 end
 
-function DebugTextSystem:initialize()
+function DebugTextSystem:initialize(camera)
 	System.initialize(self)
+	self.camera = camera
 end
 
 function DebugTextSystem:draw()
@@ -35,27 +36,31 @@ function DebugTextSystem:draw()
 			airborne,
 		}
 
-		-- love.graphics.setColor(0, 255, 0)
-		love.graphics.print('grounded  ', 10, 7)
-		bool_to_square(debug_data[1], 50, 7 + 5)
-		love.graphics.print('crouch ', 10, 18)
-		bool_to_square(debug_data[2], 50, 18 + 5)
-		love.graphics.print('jump   ', 10, 29)
-		bool_to_square(debug_data[3], 50, 29 + 5)
-		love.graphics.print('fall   ', 10, 40)
-		bool_to_square(debug_data[4], 50, 40 + 5)
-		love.graphics.print('slide  ', 10, 51)
-		bool_to_square(debug_data[5], 50, 51 + 5)
-		love.graphics.print('air  ', 10, 62)
-		bool_to_square(debug_data[6], 50, 62 + 5)
-		love.graphics.print('pos  ' .. position.x, 10, 73)
-		love.graphics.setColor(255, 255, 255, 255)
+		self.camera:draw(
+			function()
+				-- love.graphics.setColor(0, 255, 0)
+				-- love.graphics.print('grounded  ', 10, 7)
+				-- bool_to_square(debug_data[1], 50, 7 + 5)
+				-- love.graphics.print('crouch ', 10, 18)
+				-- bool_to_square(debug_data[2], 50, 18 + 5)
+				-- love.graphics.print('jump   ', 10, 29)
+				-- bool_to_square(debug_data[3], 50, 29 + 5)
+				-- love.graphics.print('fall   ', 10, 40)
+				-- bool_to_square(debug_data[4], 50, 40 + 5)
+				-- love.graphics.print('slide  ', 10, 51)
+				-- bool_to_square(debug_data[5], 50, 51 + 5)
+				-- love.graphics.print('air  ', 10, 62)
+				-- bool_to_square(debug_data[6], 50, 62 + 5)
+				love.graphics.print('pos  ' .. position.x .. ', ' .. position.y, position.x, position.y)
+				love.graphics.setColor(255, 255, 255, 255)
+			end
+			)
 	end
 end
 
 function DebugTextSystem:requires()
 	return {
-		'Input',
+		'Position',
 	}
 end
 
