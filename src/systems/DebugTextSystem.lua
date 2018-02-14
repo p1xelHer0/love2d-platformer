@@ -12,6 +12,11 @@ local function bool_to_square(bool, x, y)
 	love.graphics.setColor(255, 255, 255)
 end
 
+local function print_value(label, bool, x, y)
+	love.graphics.print(label, x + 10, y)
+	bool_to_square(bool, x + 50, y + 5)
+end
+
 function DebugTextSystem:initialize(camera)
 	System.initialize(self)
 	self.camera = camera
@@ -29,32 +34,32 @@ function DebugTextSystem:draw()
 
 		local debug_data = {
 			grounded,
-			crouch,
-			jump,
-			fall,
-			slide,
 			airborne,
+			fall,
+			jump,
+			crouch,
+			slide,
 		}
+
+		local render_position = position.y
+		if crouch then
+			render_position = render_position - 7
+		end
 
 		self.camera:draw(
 			function()
-				-- love.graphics.setColor(0, 255, 0)
-				-- love.graphics.print('grounded  ', 10, 7)
-				-- bool_to_square(debug_data[1], 50, 7 + 5)
-				-- love.graphics.print('crouch ', 10, 18)
-				-- bool_to_square(debug_data[2], 50, 18 + 5)
-				-- love.graphics.print('jump   ', 10, 29)
-				-- bool_to_square(debug_data[3], 50, 29 + 5)
-				-- love.graphics.print('fall   ', 10, 40)
-				-- bool_to_square(debug_data[4], 50, 40 + 5)
-				-- love.graphics.print('slide  ', 10, 51)
-				-- bool_to_square(debug_data[5], 50, 51 + 5)
-				-- love.graphics.print('air  ', 10, 62)
-				-- bool_to_square(debug_data[6], 50, 62 + 5)
-				love.graphics.print('pos  ' .. position.x .. ', ' .. position.y, position.x, position.y)
-				love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.print(position.x .. ', ' .. position.y, position.x - 10, position.y - 20)
+
+				print_value('ground', debug_data[1], position.x, render_position)
+				print_value('air', debug_data[2], position.x, render_position + 9)
+				print_value('fall', debug_data[3], position.x, render_position + 9 * 2)
+				print_value('jump', debug_data[4], position.x, render_position + 9 * 3)
+				print_value('crouch', debug_data[5], position.x, render_position + 9 * 4)
+				print_value('slide', debug_data[6], position.x, render_position + 9 * 5)
 			end
-			)
+		)
+
+		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
 
