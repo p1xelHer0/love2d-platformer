@@ -14,9 +14,6 @@ local function can_jump(entity)
 	local input = entity:get('Input')
 	local grounded = entity:get('Grounded')
 
-	print(input.jump_count)
-	print(input.jump_count_max)
-
 	-- We can only jump while grounding
 	if input.jump_canceled then
 		if crouch then
@@ -106,6 +103,7 @@ end
 function InputSystem:requires()
 	return {
 		'Input',
+		'Playable',
 	}
 end
 

@@ -27,6 +27,10 @@ local JumpSystem = require('src.systems.JumpSystem')
 local CrouchSystem = require('src.systems.CrouchSystem')
 local SlideSystem = require('src.systems.SlideSystem')
 
+local DeathSystem = require('src.systems.DeathSystem')
+
+local HealthUISystem = require('src.systems.HealthUISystem')
+
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local PhysicsSystem = require('src.systems.PhysicsSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
@@ -73,7 +77,9 @@ function love.load()
 	engine:addSystem(PhysicsSystem(level))
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(CollisionSystem(level))
+	engine:addSystem(DeathSystem())
 	engine:addSystem(LevelRenderingSystem(camera))
+	engine:addSystem(HealthUISystem(camera))
 	engine:addSystem(CameraSystem())
 
 	if DEBUG then

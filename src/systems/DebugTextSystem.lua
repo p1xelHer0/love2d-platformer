@@ -31,6 +31,7 @@ function DebugTextSystem:draw()
 		local grounded = entity:get('Grounded')
 		local crouch = entity:get('Crouch')
 		local position = entity:get('Position').coordinates
+		local velocity = entity:get('Body').velocity
 
 		local debug_data = {
 			grounded,
@@ -48,7 +49,13 @@ function DebugTextSystem:draw()
 
 		self.camera:draw(
 			function()
-				love.graphics.print(position.x .. ', ' .. position.y, position.x - 10, position.y - 20)
+				love.graphics.print(position.x .. ', ' .. position.y, position.x - 10, render_position - 20)
+				love.graphics.line(
+				  position.x,
+				  render_position,
+				  position.x + velocity.x / 5,
+				  render_position + velocity.y / 5
+				)
 
 				print_value('ground', debug_data[1], position.x, render_position)
 				print_value('air', debug_data[2], position.x, render_position + 9)

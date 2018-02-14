@@ -12,6 +12,13 @@ function CollisionSystem:initialize(level)
 	self.tileMap = level:get('TileMap').map
 end
 
+local function kill(entity)
+	local health = entity:get('Health')
+	if health then
+		health.health = 0
+	end
+end
+
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local body = entity:get('Body')
@@ -49,9 +56,13 @@ function CollisionSystem:update(dt)
 			for i = 1, length do
 				local collision = collisions[i]
 
-				-- if collision.other.layer.name == 'Spikes' then
-				-- -- example of collision with Tiled layer
-				-- end
+				if collision.other then
+					if collision.other.layer then
+						if collision.other.layer.name == 'Spikes' then
+							kill(entity)
+						end
+					end
+				end
 
 				-- We collided on bottom
 				-- Entity is on the ground

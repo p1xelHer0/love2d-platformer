@@ -8,24 +8,26 @@ require('src.components.Position')
 require('src.components.Health')
 require('src.components.Input')
 require('src.components.SpawnPoint')
-require('src.components.Sprite')
+require('src.components.Playable')
 
 local
 Animation,
 Body,
 Camera,
 Direction,
-Position,
 Health,
 Input,
+Playable,
+Position,
 SpawnPoint = Component.load({
 	'Animation',
 	'Body',
 	'Camera',
 	'Direction',
-	'Position',
 	'Health',
 	'Input',
+	'Position',
+	'Playable',
 	'SpawnPoint',
 })
 
@@ -49,8 +51,9 @@ local function Player(camera)
 	entity:add(Body(size))
 	entity:add(Camera(camera))
 	entity:add(Direction())
-	entity:add(Health(40))
+	entity:add(Health(100))
 	entity:add(Input())
+	entity:add(Playable())
 	entity:add(Position())
 	entity:add(SpawnPoint('player'))
 
