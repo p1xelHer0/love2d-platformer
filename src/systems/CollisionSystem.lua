@@ -1,7 +1,5 @@
 local round = require('lib.lume.lume').round
 local Airborne = require('src.components.Airborne')
-local Jump = require('src.components.Jump')
-local Slide = require('src.components.Slide')
 local Grounded = require('src.components.Grounded')
 
 local CollisionSystem = class('CollisionSystem', System)
@@ -116,7 +114,7 @@ function CollisionSystem:onRemoveEntity(entity)
 	self.bumpWorld:remove(entity)
 end
 
-function CollisionSystem:requires()
+function CollisionSystem.requires()
 	return {
 		'Body',
 		'Position',

@@ -26,7 +26,7 @@ end
 function GroundedSystem:onRemoveEntity(entity)
 end
 
-function GroundedSystem:requires(entity)
+function GroundedSystem.requires()
 	return {
 		'Grounded',
 	}

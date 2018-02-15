@@ -100,7 +100,7 @@ function InputSystem:update(dt)
 	end
 end
 
-function InputSystem:requires()
+function InputSystem.requires()
 	return {
 		'Input',
 		'Playable',

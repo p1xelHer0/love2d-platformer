@@ -70,7 +70,7 @@ function DebugTextSystem:draw()
 	end
 end
 
-function DebugTextSystem:requires()
+function DebugTextSystem.requires()
 	return {
 		'Position',
 	}

@@ -1,14 +1,13 @@
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
 	globals = true,
-	debug = true,
+	debug = false,
 })
 
-local gamera = require('lib.gamera.gamera')
-
 vector = require('lib.hump.vector')
-
 scrale = require('lib.scrale.scrale')
+
+local gamera = require('lib.gamera.gamera')
 
 -- Entities
 local Player = require('src.entities.Player')

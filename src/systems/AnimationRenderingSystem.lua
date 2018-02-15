@@ -66,7 +66,7 @@ function SpriteRenderingSystem:draw()
 	end
 end
 
-function SpriteRenderingSystem:requires()
+function SpriteRenderingSystem.requires()
 	return {
 		'Animation',
 		'Position',

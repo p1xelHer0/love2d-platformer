@@ -63,7 +63,7 @@ function CrouchSystem:onRemoveEntity(entity)
 	position.y = position.y - 7
 end
 
-function CrouchSystem:requires(entity)
+function CrouchSystem.requires()
 	return {
 		'Body',
 		'Crouch',

@@ -14,7 +14,7 @@ function AnimationSystem:update(dt)
 	end
 end
 
-function AnimationSystem:requires()
+function AnimationSystem.requires()
 	return {
 		'Animation',
 	}

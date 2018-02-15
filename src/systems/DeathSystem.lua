@@ -1,6 +1,6 @@
 local DeathSystem = class('DeathSystem', System)
 
-function DeathSystem:initialize(level)
+function DeathSystem:initialize()
 	System.initialize(self)
 end
 
@@ -26,13 +26,7 @@ function DeathSystem:update(dt)
 	end
 end
 
-function DeathSystem:onAddEntity(entity)
-end
-
-function DeathSystem:onRemoveEntity(entity)
-end
-
-function DeathSystem:requires(entity)
+function DeathSystem.requires()
 	return {
 		'Health',
 	}

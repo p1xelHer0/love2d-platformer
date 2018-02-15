@@ -1,6 +1,6 @@
 local SlideSystem = class('SlideSystem', System)
 
-function SlideSystem:initialize(level)
+function SlideSystem:initialize()
 	System.initialize(self)
 end
 
@@ -29,7 +29,7 @@ end
 function SlideSystem:onRemoveEntity(entity)
 end
 
-function SlideSystem:requires(entity)
+function SlideSystem.requires()
 	return {
 		'Body',
 		'Slide',

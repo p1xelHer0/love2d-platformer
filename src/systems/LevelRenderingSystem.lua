@@ -17,7 +17,7 @@ function LevelRenderingSystem:draw()
 	end
 end
 
-function LevelRenderingSystem:requires()
+function LevelRenderingSystem.requires()
 	return {
 		'TileMap',
 	}

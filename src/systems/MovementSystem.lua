@@ -1,6 +1,6 @@
 local MovementSystem = class('MovementSystem', System)
 
-function MovementSystem:initialize(level)
+function MovementSystem:initialize()
 	System.initialize(self)
 end
 
@@ -25,7 +25,7 @@ function MovementSystem:onRemoveEntity(entity)
 	velocity.x = 0
 end
 
-function MovementSystem:requires(entity)
+function MovementSystem.requires()
 	return {
 		'Body',
 		'Direction',

@@ -43,7 +43,7 @@ function CameraSystem:update(dt)
 	end
 end
 
-function CameraSystem:requires()
+function CameraSystem.requires()
 	return {
 		'Camera',
 		'Position',

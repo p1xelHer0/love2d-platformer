@@ -23,7 +23,7 @@ function CameraDebugSystem:draw()
 	end
 end
 
-function CameraDebugSystem:requires()
+function CameraDebugSystem.requires()
 	return {
 		'Camera',
 	}

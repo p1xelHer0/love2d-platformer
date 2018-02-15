@@ -1,22 +1,5 @@
 local HealthUISystem = class('HealthUISystem', System)
 
-local function bool_to_square(bool, x, y)
-	local color
-	if bool then
-		color = {0, 255, 0}
-	else
-		color = {120, 0, 0}
-	end
-	love.graphics.setColor(unpack(color))
-	love.graphics.rectangle('fill', x, y, 4, 4)
-	love.graphics.setColor(255, 255, 255)
-end
-
-local function print_value(label, bool, x, y)
-	love.graphics.print(label, x + 10, y)
-	bool_to_square(bool, x + 50, y + 5)
-end
-
 function HealthUISystem:initialize(camera)
 	System.initialize(self)
 	self.camera = camera
@@ -45,7 +28,7 @@ function HealthUISystem:draw()
 	end
 end
 
-function HealthUISystem:requires()
+function HealthUISystem.requires()
 	return {
 		'Playable',
 		'Health',

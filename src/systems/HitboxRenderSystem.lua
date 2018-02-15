@@ -24,7 +24,7 @@ function HitboxRenderSystem:draw()
 	end
 end
 
-function HitboxRenderSystem:requires()
+function HitboxRenderSystem.requires()
 	return {
 		'Body',
 		'Position',

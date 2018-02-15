@@ -31,7 +31,7 @@ function PhysicsSystem:update(dt)
 	end
 end
 
-function PhysicsSystem:requires()
+function PhysicsSystem.requires()
 	return {
 		'Body',
 	}

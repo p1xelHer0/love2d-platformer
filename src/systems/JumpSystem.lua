@@ -2,7 +2,7 @@ local Airborne = require('src.components.Airborne')
 
 local JumpSystem = class('JumpSystem', System)
 
-function JumpSystem:initialize(level)
+function JumpSystem:initialize()
 	System.initialize(self)
 end
 
@@ -52,7 +52,7 @@ function JumpSystem:onRemoveEntity(entity)
 		end
 end
 
-function JumpSystem:requires(entity)
+function JumpSystem.requires()
 	return {
 		'Body',
 		'Jump',
