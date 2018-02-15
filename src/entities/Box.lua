@@ -1,4 +1,3 @@
-
 require('src.components.Body')
 require('src.components.Position')
 require('src.components.SpawnPoint')

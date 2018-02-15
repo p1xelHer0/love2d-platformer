@@ -102,6 +102,7 @@ function CollisionSystem:onAddEntity(entity)
 		local point = spawn_point.point
 		for _, object in pairs(self.tileMap.objects) do
 			if object.name == point then
+				spawn_point.position.x, spawn_point.position.y = object.x, object.y
 				position.x, position.y = object.x, object.y
 				break
 			end

@@ -43,7 +43,7 @@ local CameraDebugSystem = require('src.systems.CameraDebugSystem')
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local DebugTextSystem = require('src.systems.DebugTextSystem')
 
-DEBUG = true
+debug = true
 
 function love.load()
 	scrale.init(512, 288, {
@@ -72,6 +72,7 @@ function love.load()
 	engine:addSystem(JumpSystem())
 	engine:addSystem(CrouchSystem(level))
 	engine:addSystem(SlideSystem())
+	engine:addSystem(AnimationSystem())
 	engine:addSystem(SpriteRenderingSystem(camera))
 	engine:addSystem(AnimationRenderingSystem(camera))
 	engine:addSystem(PhysicsSystem(level))
@@ -82,7 +83,7 @@ function love.load()
 	engine:addSystem(HealthUISystem(camera))
 	engine:addSystem(CameraSystem())
 
-	if DEBUG then
+	if debug then
 		engine:addSystem(CameraDebugSystem(camera))
 		engine:addSystem(HitboxRenderSystem(camera))
 		engine:addSystem(DebugTextSystem(camera))

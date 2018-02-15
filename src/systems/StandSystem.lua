@@ -1,6 +1,6 @@
 local GroundedSystem = class('GroundedSystem', System)
 
-function GroundedSystem:initialize(level)
+function GroundedSystem:initialize()
 	System.initialize(self)
 end
 

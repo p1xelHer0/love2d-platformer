@@ -6,24 +6,16 @@ function SpriteRenderingSystem:initialize(camera)
 end
 
 function SpriteRenderingSystem:draw()
-	love.graphics.setBackgroundColor(33, 33, 33)
 	for _, entity in pairs(self.targets) do
 		local animation = entity:get('Animation')
-
 		local position = entity:get('Position').coordinates
+
 		local direction = entity:get('Direction').value
 
-		local movement = entity:get('Movement')
 		local crouch = entity:get('Crouch')
 		local fall = entity:get('Fall')
 		local jump = entity:get('Jump')
 		local slide = entity:get('Slide')
-		local grounded = entity:get('Grounded')
-
-		local animations, current, image =
-			animation.animations,
-			animation.current,
-			animation.image
 
 		-- Sprite is 2px taller than the sprite, offset accordingly
 		local offset = {
@@ -43,7 +35,7 @@ function SpriteRenderingSystem:draw()
 		end
 
 		local draw_properties = {
-			image,
+			animation.image,
 			position.x,
 			position.y,
 			0,
@@ -54,21 +46,21 @@ function SpriteRenderingSystem:draw()
 		}
 
 		if fall then
-			current = animations.fall
+			animation.current = animation.animations.fall
 		elseif crouch then
-			current = animations.crouch
+			animation.current = animation.animations.crouch
 		elseif jump then
-			current = animations.jump
+			animation.current = animation.animations.jump
 		elseif slide then
-			current = animations.slide
+			animation.current = animation.animations.slide
 		else
-			current = animations.grounded
+			animation.current = animation.animations.grounded
 		end
 
 		-- Render the animations
 		self.camera:draw(
 			function()
-				current:draw(unpack(draw_properties))
+				animation.current:draw(unpack(draw_properties))
 			end
 		)
 	end
@@ -77,6 +69,7 @@ end
 function SpriteRenderingSystem:requires()
 	return {
 		'Animation',
+		'Position',
 	}
 end
 
