@@ -15,9 +15,6 @@ function MovementSystem:update(dt)
 	end
 end
 
-function MovementSystem:onAddEntity()
-end
-
 function MovementSystem:onRemoveEntity(entity)
 	local velocity = entity:get('Body').velocity
 

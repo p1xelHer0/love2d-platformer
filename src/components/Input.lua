@@ -5,6 +5,10 @@ function Input:initialize()
 	self.jump_count_max = 2
 	self.jump_canceled = false
 
+	self.dash_count = 0
+	self.dash_count_max = 1
+	self.dash_canceled = false
+
 	self.lock = false
 end
 

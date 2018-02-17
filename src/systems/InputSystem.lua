@@ -1,3 +1,4 @@
+local Dash = require('src.components.Dash')
 local Crouch = require('src.components.Crouch')
 local Jump = require('src.components.Jump')
 local Movement = require('src.components.Movement')
@@ -9,13 +10,14 @@ function InputSystem:initialize()
 end
 
 local function can_jump(entity)
-	local airborne = entity:get('Airborne')
-	local crouch = entity:get('Crouch')
 	local input = entity:get('Input')
-	local grounded = entity:get('Grounded')
 
 	-- We can only jump while grounding
 	if input.jump_canceled then
+		local airborne = entity:get('Airborne')
+		local crouch = entity:get('Crouch')
+		local grounded = entity:get('Grounded')
+
 		if crouch then
 			return false
 		elseif airborne then
@@ -39,17 +41,34 @@ local function can_crouch(entity)
 	return false
 end
 
+local function can_dash(entity)
+	local crouch = entity:get('Crouch')
+	local dash = entity:get('Dash')
+	local input = entity:get('Input')
+
+	-- We can only jump while grounding
+	if crouch then
+		return false
+	elseif input.dash_canceled then
+		return input.dash_count < input.dash_count_max
+	end
+
+	return false
+end
+
 function InputSystem:update(dt)
 	-- ASD and Space as of now for input
-	local left, right, down, space =
+	local left, right, down, space, k =
 		love.keyboard.isDown('a'),
 		love.keyboard.isDown('d'),
 		love.keyboard.isDown('s'),
-		love.keyboard.isDown('space')
+		love.keyboard.isDown('space'),
+		love.keyboard.isDown('k')
 
 	for _, entity in pairs(self.targets) do
 		local input = entity:get('Input')
 		if not input.lock then
+			local dash = entity:get('Dash')
 			local crouch = entity:get('Crouch')
 			local direction = entity:get('Direction')
 			local jump = entity:get('Jump')
@@ -95,6 +114,18 @@ function InputSystem:update(dt)
 				if crouch then
 					if crouch.cancelable then entity:remove('Crouch') end
 				end
+			end
+
+			if k then
+				if can_dash(entity) then
+					entity:add(Dash())
+					input.dash_canceled = false
+					input.dash_count = input.dash_count + 1
+				end
+			end
+
+			if not k then
+				input.dash_canceled = true
 			end
 		end
 	end

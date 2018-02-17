@@ -10,7 +10,7 @@ function CollisionSystem:initialize(level)
 	self.tileMap = level:get('TileMap').map
 end
 
-local function kill(entity)
+function CollisionSystem.kill(entity)
 	local health = entity:get('Health')
 	if health then
 		health.health = 0
@@ -57,7 +57,7 @@ function CollisionSystem:update(dt)
 				if collision.other then
 					if collision.other.layer then
 						if collision.other.layer.name == 'Spikes' then
-							kill(entity)
+							self.kill(entity)
 						end
 					end
 				end

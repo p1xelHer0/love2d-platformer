@@ -4,11 +4,12 @@ require('src.components.Animation')
 require('src.components.Body')
 require('src.components.Camera')
 require('src.components.Direction')
-require('src.components.Position')
 require('src.components.Health')
 require('src.components.Input')
-require('src.components.SpawnPoint')
 require('src.components.Playable')
+require('src.components.Position')
+require('src.components.SpawnPoint')
+require('src.components.Trail')
 
 local
 Animation,
@@ -19,7 +20,8 @@ Health,
 Input,
 Playable,
 Position,
-SpawnPoint = Component.load({
+SpawnPoint,
+Trail = Component.load({
 	'Animation',
 	'Body',
 	'Camera',
@@ -29,6 +31,7 @@ SpawnPoint = Component.load({
 	'Position',
 	'Playable',
 	'SpawnPoint',
+	'Trail'
 })
 
 local function Player(camera)
@@ -56,6 +59,7 @@ local function Player(camera)
 	entity:add(Playable())
 	entity:add(Position())
 	entity:add(SpawnPoint('player'))
+	entity:add(Trail())
 
 	return entity
 end

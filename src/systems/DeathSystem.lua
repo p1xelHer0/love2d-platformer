@@ -4,7 +4,7 @@ function DeathSystem:initialize()
 	System.initialize(self)
 end
 
-local function respawn(entity)
+function DeathSystem.respawn(entity)
 	local health = entity:get('Health')
 	local position = entity:get('Position').coordinates
 	local spawn_point = entity:get('SpawnPoint')
@@ -21,7 +21,7 @@ function DeathSystem:update(dt)
 		local health = entity:get('Health')
 
 		if health.health <= 0 then
-			respawn(entity)
+			self.respawn(entity)
 		end
 	end
 end

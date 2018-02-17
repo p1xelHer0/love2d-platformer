@@ -20,7 +20,10 @@ function GroundedSystem:onAddEntity(entity)
 	if jump then entity:remove('Jump') end
 	if slide then entity:remove('Slide') end
 
-	if input then input.jump_count = 0 end
+	if input then
+		input.jump_count = 0
+		input.dash_count = 0
+	end
 end
 
 function GroundedSystem:onRemoveEntity(entity)

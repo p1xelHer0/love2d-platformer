@@ -12,11 +12,8 @@ function CrouchSystem:update(dt)
 		local position = entity:get('Position').coordinates
 		local airborne = entity:get('Airborne')
 
-
 		local velocity = body.velocity
 		local hitbox = body.hitbox
-
-		crouch.time = crouch.time + dt
 
 		-- Query the world to see if we can stand
 		local _, length = self.bumpWorld:queryRect(

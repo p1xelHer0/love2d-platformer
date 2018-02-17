@@ -1,10 +1,7 @@
 local Jump = Component.create('Jump')
 
 function Jump:initialize()
-	self.count = 0
-	self.count_max = 2
-
-	self.time = 0
+	self.timer = nil
 	self.time_min = 0.01
 	self.time_max = 0.3
 

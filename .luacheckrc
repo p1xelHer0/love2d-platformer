@@ -5,6 +5,7 @@ globals = {
 	"Engine",
 	"Entity",
 	"System",
+	"Timer",
 	"camera",
 	"class",
 	"debug",

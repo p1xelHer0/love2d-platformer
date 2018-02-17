@@ -1,9 +1,12 @@
+DEBUG = true
+
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
 	globals = true,
-	debug = false,
+	debug = DEBUG,
 })
 
+Timer = require('lib.hump.timer')
 vector = require('lib.hump.vector')
 scrale = require('lib.scrale.scrale')
 
@@ -15,7 +18,6 @@ local Box = require('src.entities.Box')
 local Level = require('src.entities.Level')
 
 -- Systems
-local AnimationSystem = require('src.systems.AnimationSystem')
 local CollisionSystem = require('src.systems.CollisionSystem')
 
 local InputSystem = require('src.systems.InputSystem')
@@ -23,6 +25,7 @@ local InputSystem = require('src.systems.InputSystem')
 local MovementSystem = require('src.systems.MovementSystem')
 local StandSystem = require('src.systems.StandSystem')
 local JumpSystem = require('src.systems.JumpSystem')
+local DashSystem = require('src.systems.DashSystem')
 local CrouchSystem = require('src.systems.CrouchSystem')
 local SlideSystem = require('src.systems.SlideSystem')
 
@@ -30,10 +33,13 @@ local DeathSystem = require('src.systems.DeathSystem')
 
 local HealthUISystem = require('src.systems.HealthUISystem')
 
+local AnimationSystem = require('src.systems.AnimationSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local PhysicsSystem = require('src.systems.PhysicsSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 local AnimationRenderingSystem = require('src.systems.AnimationRenderingSystem')
+local TrailSystem = require('src.systems.TrailSystem')
+local TrailRenderingSystem = require('src.systems.TrailRenderingSystem')
 
 local CameraSystem = require('src.systems.CameraSystem')
 
@@ -42,7 +48,6 @@ local CameraDebugSystem = require('src.systems.CameraDebugSystem')
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local DebugTextSystem = require('src.systems.DebugTextSystem')
 
-debug = true
 
 function love.load()
 	scrale.init(512, 288, {
@@ -66,23 +71,31 @@ function love.load()
 	engine:addEntity(Box())
 
 	engine:addSystem(InputSystem())
+
+	engine:addSystem(PhysicsSystem(level))
+
 	engine:addSystem(MovementSystem())
 	engine:addSystem(StandSystem())
 	engine:addSystem(JumpSystem())
+	engine:addSystem(DashSystem())
 	engine:addSystem(CrouchSystem(level))
 	engine:addSystem(SlideSystem())
+
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(SpriteRenderingSystem(camera))
 	engine:addSystem(AnimationRenderingSystem(camera))
-	engine:addSystem(PhysicsSystem(level))
-	engine:addSystem(AnimationSystem())
+	engine:addSystem(TrailSystem())
+
 	engine:addSystem(CollisionSystem(level))
 	engine:addSystem(DeathSystem())
+
 	engine:addSystem(LevelRenderingSystem(camera))
+	engine:addSystem(TrailRenderingSystem(camera))
 	engine:addSystem(HealthUISystem(camera))
+
 	engine:addSystem(CameraSystem())
 
-	if debug then
+	if DEBUG then
 		engine:addSystem(CameraDebugSystem(camera))
 		engine:addSystem(HitboxRenderSystem(camera))
 		engine:addSystem(DebugTextSystem(camera))

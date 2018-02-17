@@ -9,27 +9,34 @@ end
 function JumpSystem:update(dt)
 	for _, entity in pairs(self.targets) do
 		local jump = entity:get('Jump')
-		local input = entity:get('Input')
 		local velocity = entity:get('Body').velocity
 
 		-- Apply force on entity velocity to jump
 		velocity.y = jump.force
 
-		jump.time = jump.time + dt
-
-		if jump.time > jump.time_min then
-			jump.cancelable = true
-			input.lock = false
-		end
-
-		if jump.time > jump.time_max then
-			entity:remove('Jump')
-		end
+		jump.timer:update(dt)
 	end
 end
 
 function JumpSystem:onAddEntity(entity)
 	local jump = entity:get('Jump')
+
+	jump.timer = Timer.new()
+
+	--  Setup timers
+	jump.timer:after(
+		jump.time_min,
+		function()
+			jump.cancelable = true
+		end
+	)
+
+	jump.timer:after(
+		jump.time_max,
+		function()
+			entity:remove('Jump')
+		end
+	)
 
 	if entity:get('Grounded') then entity:remove('Grounded') end
 	if not entity:get('Airborne') then entity:add(Airborne()) end
