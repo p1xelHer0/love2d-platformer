@@ -6,6 +6,10 @@ end
 
 function GroundedSystem:update(dt)
 	for _, entity in pairs(self.targets) do
+		local input = entity:get('Input')
+		if input then
+			input.dash_count = 0
+		end
 	end
 end
 
@@ -22,7 +26,6 @@ function GroundedSystem:onAddEntity(entity)
 
 	if input then
 		input.jump_count = 0
-		input.dash_count = 0
 	end
 end
 

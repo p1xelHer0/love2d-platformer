@@ -22,6 +22,8 @@ local CollisionSystem = require('src.systems.CollisionSystem')
 
 local InputSystem = require('src.systems.InputSystem')
 
+local PhysicsSystem = require('src.systems.PhysicsSystem')
+
 local MovementSystem = require('src.systems.MovementSystem')
 local StandSystem = require('src.systems.StandSystem')
 local JumpSystem = require('src.systems.JumpSystem')
@@ -35,7 +37,6 @@ local HealthUISystem = require('src.systems.HealthUISystem')
 
 local AnimationSystem = require('src.systems.AnimationSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
-local PhysicsSystem = require('src.systems.PhysicsSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 local AnimationRenderingSystem = require('src.systems.AnimationRenderingSystem')
 local TrailSystem = require('src.systems.TrailSystem')
@@ -71,7 +72,6 @@ function love.load()
 	engine:addEntity(Box())
 
 	engine:addSystem(InputSystem())
-
 	engine:addSystem(PhysicsSystem(level))
 
 	engine:addSystem(MovementSystem())
