@@ -1,3 +1,4 @@
+local round = require('lib.lume.lume').round
 local CameraSystem = class('CameraSystem', System)
 
 function CameraSystem:initialize()
@@ -37,7 +38,8 @@ function CameraSystem:update(dt)
 			self.target.y = self.target.y - 7
 		end
 
-		self.target = self.target
+		self.target.x = round(self.target.x)
+		self.target.y = round(self.target.y)
 
 		camera:setPosition(self.target.x, self.target.y)
 	end

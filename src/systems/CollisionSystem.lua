@@ -1,4 +1,3 @@
-local round = require('lib.lume.lume').round
 local Airborne = require('src.components.Airborne')
 local Grounded = require('src.components.Grounded')
 
@@ -19,6 +18,7 @@ end
 
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
+		print(dt)
 		local body = entity:get('Body')
 
 		local position = entity:get('Position').coordinates
@@ -39,10 +39,6 @@ function CollisionSystem:update(dt)
 		position.x, position.y, collisions, length = self.bumpWorld:move(
 			entity, newPosition.x, newPosition.y
 		)
-
-		-- pixels, wooho
-		position.x = round(position.x)
-		position.y = round(position.y)
 
 		-- No collisions, Entity can't be grounding
 		if length == 0 then

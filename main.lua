@@ -1,4 +1,4 @@
-DEBUG = true
+DEBUG = false
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
@@ -47,9 +47,10 @@ local CameraDebugSystem = require('src.systems.CameraDebugSystem')
 local HitboxRenderSystem = require('src.systems.HitboxRenderSystem')
 local DebugTextSystem = require('src.systems.DebugTextSystem')
 
+print(love.graphics.getHeight())
 
 function love.load()
-	scrale.init(512, 288, {
+	scrale.init({
 		fillHorizontally = false,
 		fillVertically = false,
 		scaleFilter = "nearest",
