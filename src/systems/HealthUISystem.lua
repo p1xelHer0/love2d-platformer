@@ -14,17 +14,20 @@ function HealthUISystem:draw()
 
 		self.camera:draw(
 			function(x, y)
-				local bar_position = { x = x + 16, y = y + 16, }
-				love.graphics.setColor(0, 100, 0, 255)
-				love.graphics.rectangle('fill', bar_position.x, bar_position.y, max, 4)
+				for i = 1, max, 1 do
+					love.graphics.setColor(0, 100, 0, 255)
+					love.graphics.rectangle('fill', x + i * 16, y + 16, 4, 4)
+				end
+
 				love.graphics.setColor(0, 255, 0, 255)
-				love.graphics.rectangle('fill', bar_position.x, bar_position.y, current, 4)
-				love.graphics.setColor(255, 255, 255, 255)
-				local text_position = { x = bar_position.x + 3, y = bar_position.y + 5, }
-				local health_label = current .. ' / ' .. max
-				love.graphics.print(health_label, text_position.x, text_position.y)
+
+				for i = 1, current, 1 do
+					love.graphics.rectangle('fill', x + i * 16, y + 16, 4, 4)
+				end
 			end
 		)
+
+		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
 

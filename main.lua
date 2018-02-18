@@ -39,8 +39,6 @@ local AnimationSystem = require('src.systems.AnimationSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 local AnimationRenderingSystem = require('src.systems.AnimationRenderingSystem')
-local TrailSystem = require('src.systems.TrailSystem')
-local TrailRenderingSystem = require('src.systems.TrailRenderingSystem')
 
 local CameraSystem = require('src.systems.CameraSystem')
 
@@ -84,13 +82,11 @@ function love.load()
 	engine:addSystem(AnimationSystem())
 	engine:addSystem(SpriteRenderingSystem(camera))
 	engine:addSystem(AnimationRenderingSystem(camera))
-	engine:addSystem(TrailSystem())
 
 	engine:addSystem(CollisionSystem(level))
 	engine:addSystem(DeathSystem())
 
 	engine:addSystem(LevelRenderingSystem(camera))
-	engine:addSystem(TrailRenderingSystem(camera))
 	engine:addSystem(HealthUISystem(camera))
 
 	engine:addSystem(CameraSystem())

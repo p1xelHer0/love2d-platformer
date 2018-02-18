@@ -12,7 +12,7 @@ function DeathSystem.respawn(entity)
 	if spawn_point then
 		position.x = spawn_point.position.x
 		position.y = spawn_point.position.y
-		health.health = health.health_max
+		health.health = 1
 	end
 end
 

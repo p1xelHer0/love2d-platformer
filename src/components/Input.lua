@@ -8,6 +8,7 @@ function Input:initialize()
 	self.dash_count = 0
 	self.dash_count_max = 1
 	self.dash_canceled = false
+	self.dash_cooldown = 1
 
 	self.lock = false
 end

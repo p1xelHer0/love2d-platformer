@@ -15,11 +15,11 @@ function DashSystem:update(dt)
 			input.lock = true
 		end
 
-		-- Apply force on entity velocity to dash
-		velocity.x = dash.force * direction
-
 		-- Prevent from falling while dashing
 		velocity.y = 0
+
+		-- Apply dash force
+		velocity.x = dash.force * direction
 
 		dash.timer:update(dt)
 	end
@@ -27,10 +27,13 @@ end
 
 function DashSystem:onAddEntity(entity)
 	local dash = entity:get('Dash')
+	local movement = entity:get('Movement')
+
+	if movement then
+		entity:remove('Movement')
+	end
 
 	dash.timer = Timer.new()
-
-	--  Setup timers
 	dash.timer:after(
 		dash.time_max,
 		function()
@@ -44,6 +47,7 @@ function DashSystem:onRemoveEntity(entity)
 	local velocity = entity:get('Body').velocity
 
 	velocity.x = 0
+
 	if input then
 		input.lock = false
 	end

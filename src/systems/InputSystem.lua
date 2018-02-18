@@ -67,6 +67,7 @@ function InputSystem:update(dt)
 
 	for _, entity in pairs(self.targets) do
 		local input = entity:get('Input')
+
 		if not input.lock then
 			local dash = entity:get('Dash')
 			local crouch = entity:get('Crouch')
@@ -121,6 +122,8 @@ function InputSystem:update(dt)
 					entity:add(Dash())
 					input.dash_canceled = false
 					input.dash_count = input.dash_count + 1
+					-- TODO cooldown till dash, fixa
+					input.dash_cooldown = 0
 				end
 			end
 
