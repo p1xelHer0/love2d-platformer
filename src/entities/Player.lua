@@ -37,15 +37,11 @@ local function Player(camera)
 
 	local size = { w = 6, h = 14, }
 
-	local image = love.graphics.newImage('assets/sprites/legdude.png')
+	local image = love.graphics.newImage('assets/sprites/Player.png')
 	local g = anim8.newGrid(16, 16, image:getWidth(), image:getHeight(), 0)
 
 	local animations = {
-		grounded = anim8.newAnimation(g('1-4', 1), 1),
-		jump = anim8.newAnimation(g('5-6', 1), 0.5),
-		crouch = anim8.newAnimation(g('7-8', 1), 0.5),
-		fall = anim8.newAnimation(g('9-10', 1), 0.5),
-		slide = anim8.newAnimation(g('11-12', 1), 0.5),
+		grounded = anim8.newAnimation(g('1-1', 1), 1),
 	}
 
 	entity:add(Animation(image, animations))

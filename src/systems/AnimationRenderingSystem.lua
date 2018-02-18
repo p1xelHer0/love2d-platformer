@@ -46,13 +46,13 @@ function SpriteRenderingSystem:draw()
 		}
 
 		if fall then
-			animation.current = animation.animations.fall
+			-- animation.current = animation.animations.fall
 		elseif crouch then
-			animation.current = animation.animations.crouch
+			-- animation.current = animation.animations.crouch
 		elseif jump then
-			animation.current = animation.animations.jump
+			-- animation.current = animation.animations.jump
 		elseif slide then
-			animation.current = animation.animations.slide
+			-- animation.current = animation.animations.slide
 		else
 			animation.current = animation.animations.grounded
 		end

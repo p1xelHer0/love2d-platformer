@@ -21,7 +21,8 @@ function DashSystem:update(dt)
 		-- Apply dash force
 		velocity.x = dash.force * direction
 
-		dash.timer:update(dt)
+		dash.timer_move_end:update(dt)
+		dash.timer_dash_end:update(dt)
 	end
 end
 
@@ -33,8 +34,16 @@ function DashSystem:onAddEntity(entity)
 		entity:remove('Movement')
 	end
 
-	dash.timer = Timer.new()
-	dash.timer:after(
+	dash.timer_move_end = Timer.new()
+	dash.timer_move_end:after(
+		 dash.time_max	/	2,
+		function()
+			dash.force	=	0
+		end
+	)
+
+	dash.timer_dash_end = Timer.new()
+	dash.timer_dash_end:after(
 		dash.time_max,
 		function()
 			entity:remove('Dash')
