@@ -1,4 +1,4 @@
-DEBUG = false
+DEBUG = true
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
@@ -61,7 +61,7 @@ function love.load()
 	love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
 
 	camera = gamera.new(0, 0, 1024, 576)
-	camera:setWindow(0, 0, 512, 288)
+	camera:setWindow(0, 0, 256, 144)
 
 	engine = Engine()
 	local level = Level('assets/levels/level_test.lua')

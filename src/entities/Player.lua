@@ -35,13 +35,19 @@ SpawnPoint = Component.load({
 local function Player(camera)
 	local entity = Entity()
 
-	local size = { w = 6, h = 14, }
+	local size = { w = 5, h = 14, }
 
 	local image = love.graphics.newImage('assets/sprites/Player.png')
 	local g = anim8.newGrid(16, 16, image:getWidth(), image:getHeight(), 0)
 
 	local animations = {
-		grounded = anim8.newAnimation(g('1-1', 1), 1),
+		movement = anim8.newAnimation(g('1-8', 1), 0.05),
+		fall = anim8.newAnimation(g('12-12', 1), 1),
+		airborne = anim8.newAnimation(g('11-11', 1), 1),
+		idle = anim8.newAnimation(g('9-10', 1), 0.3),
+		jump = anim8.newAnimation(g('11-11', 1), 1),
+		crouch = anim8.newAnimation(g('13-13', 1), 1),
+		dash = anim8.newAnimation(g('14-14', 1), 1),
 	}
 
 	entity:add(Animation(image, animations))

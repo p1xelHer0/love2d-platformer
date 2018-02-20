@@ -18,7 +18,6 @@ end
 
 function CollisionSystem:update(dt)
 	for _, entity in pairs(self.targets) do
-		print(dt)
 		local body = entity:get('Body')
 
 		local position = entity:get('Position').coordinates

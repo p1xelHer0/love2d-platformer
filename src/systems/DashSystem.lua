@@ -36,9 +36,9 @@ function DashSystem:onAddEntity(entity)
 
 	dash.timer_move_end = Timer.new()
 	dash.timer_move_end:after(
-		 dash.time_max	/	2,
+		 dash.time_max / 2,
 		function()
-			dash.force	=	0
+			dash.force =	0
 		end
 	)
 

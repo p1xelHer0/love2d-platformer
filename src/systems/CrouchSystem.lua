@@ -7,12 +7,12 @@ end
 
 function CrouchSystem:update(dt)
 	for _, entity in pairs(self.targets) do
+		local airborne = entity:get('Airborne')
 		local body = entity:get('Body')
 		local crouch = entity:get('Crouch')
+		local movement = entity:get('Movement')
 		local position = entity:get('Position').coordinates
-		local airborne = entity:get('Airborne')
 
-		local velocity = body.velocity
 		local hitbox = body.hitbox
 
 		-- Query the world to see if we can stand
@@ -33,8 +33,9 @@ function CrouchSystem:update(dt)
 			if crouch.cancelable then entity:remove('Crouch') end
 		end
 
-		-- Apply velocity modifier
-		velocity.x = velocity.x * crouch.modifier
+		if movement then
+			entity:remove('Movement')
+		end
 	end
 end
 

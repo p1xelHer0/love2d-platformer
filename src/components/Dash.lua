@@ -1,8 +1,8 @@
 local Dash = Component.create('Dash')
 
 function Dash:initialize()
-	self.time_max = 0.2
-	self.force = 250
+	self.time_max = 0.3
+	self.force = 175
 	self.cooldown = 3
 end
 
