@@ -17,7 +17,7 @@ Sprite = Component.load({
 local function Box()
 	local entity = Entity()
 
-	local mass = 2
+	local mass = 100
 
 	local image = love.graphics.newImage('assets/sprites/box.png')
 

@@ -39,7 +39,7 @@ function CollisionSystem:update(dt)
 			entity, newPosition.x, newPosition.y
 		)
 
-		-- No collisions, Entity can't be grounding
+		-- No collisions, Entity can't be grounded
 		if length == 0 then
 			if not entity:get('Airborne') then entity:add(Airborne()) end
 
@@ -76,6 +76,7 @@ function CollisionSystem:update(dt)
 				if collision.normal.x == 1 or collision.normal.x == -1 then
 					-- We are moving downwards and colliding with a wall, we are sliding
 					if entity:get('Fall') then
+						-- TODO
 						-- if not entity:get('Slide') then entity:add(Slide()) end
 					end
 				end

@@ -36,15 +36,15 @@ function DashSystem:onAddEntity(entity)
 
 	dash.timer_move_end = Timer.new()
 	dash.timer_move_end:after(
-		 dash.time_max / 2,
+		 dash.time_max,
 		function()
-			dash.force =	0
+			dash.force = 0
 		end
 	)
 
 	dash.timer_dash_end = Timer.new()
 	dash.timer_dash_end:after(
-		dash.time_max,
+		dash.cooldown,
 		function()
 			entity:remove('Dash')
 		end

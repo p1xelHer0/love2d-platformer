@@ -36,6 +36,7 @@ local function Player(camera)
 	local entity = Entity()
 
 	local size = { w = 5, h = 14, }
+	local mass = 8
 
 	local image = love.graphics.newImage('assets/sprites/Player.png')
 	local g = anim8.newGrid(16, 16, image:getWidth(), image:getHeight(), 0)
@@ -51,7 +52,7 @@ local function Player(camera)
 	}
 
 	entity:add(Animation(image, animations))
-	entity:add(Body(size))
+	entity:add(Body(size, mass))
 	entity:add(Camera(camera))
 	entity:add(Direction())
 	entity:add(Health(5))

@@ -28,6 +28,13 @@ function PhysicsSystem:update(dt)
 			-120,
 			180
 		)
+
+		-- Do the same for x
+		velocity.x = clamp(
+			velocity.x + body.mass * self.gravity.x * dt,
+			-120,
+			180
+		)
 	end
 end
 

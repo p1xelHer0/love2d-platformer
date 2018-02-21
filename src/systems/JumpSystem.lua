@@ -11,8 +11,8 @@ function JumpSystem:update(dt)
 		local jump = entity:get('Jump')
 		local velocity = entity:get('Body').velocity
 
-		jump.timer:update(dt)
-		jump.timer2:update(dt)
+		jump.timer_min:update(dt)
+		jump.timer_max:update(dt)
 
 		-- Apply force on entity velocity to jump
 		velocity.y = jump.force
@@ -22,18 +22,18 @@ end
 function JumpSystem:onAddEntity(entity)
 	local jump = entity:get('Jump')
 
-	jump.timer = Timer.new()
-	jump.timer2 = Timer.new()
+	jump.timer_min = Timer.new()
+	jump.timer_max = Timer.new()
 
 	--  Setup timers
-	jump.timer2:after(
+	jump.timer_min:after(
 		jump.time_min,
 		function()
 			jump.cancelable = true
 		end
 	)
 
-	jump.timer:after(
+	jump.timer_max:after(
 		jump.time_max,
 		function()
 			entity:remove('Jump')

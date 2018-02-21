@@ -12,15 +12,18 @@ end
 local function can_jump(entity)
 	local input = entity:get('Input')
 
-	-- We can only jump while grounding
+	-- We can only jump while grounded or airborne
 	if input.jump_canceled then
 		local airborne = entity:get('Airborne')
 		local crouch = entity:get('Crouch')
 		local grounded = entity:get('Grounded')
+		local jump = entity:get('Jump')
 
-		if crouch then
+		if crouch or jump then
 			return false
 		elseif airborne then
+			-- If we are airborne, we need to check the maxmimum amount of jump
+			-- We also need to check if the jump has been canceled
 			return input.jump_canceled and input.jump_count < input.jump_count_max
 		elseif grounded then
 			return true
@@ -33,7 +36,7 @@ end
 local function can_crouch(entity)
 	local grounded = entity:get('Grounded')
 
-	-- We can only crouch while grounding
+	-- We can only crouch while grounded
 	if grounded then
 		return true
 	end
@@ -46,7 +49,7 @@ local function can_dash(entity)
 	local dash = entity:get('Dash')
 	local input = entity:get('Input')
 
-	-- We can only jump while grounding
+	-- We can only jump while grounded
 	if crouch then
 		return false
 	elseif input.dash_canceled then
@@ -77,25 +80,23 @@ function InputSystem:update(dt)
 
 			-- Update movement and direction according to L/R
 			if left and not right then
-				if not movement then
-					entity:add(Movement())
-				end
 				direction.value = -1
-			elseif right and not left then
 				if not movement then
 					entity:add(Movement())
 				end
+			elseif right and not left then
 				direction.value = 1
+				if not movement then
+					entity:add(Movement())
+				end
 			else
 				if movement then entity:remove('Movement') end
 			end
 
 			if space and can_jump(entity) then
-				if not jump then
-					entity:add(Jump())
-					input.jump_canceled = false
-					input.jump_count = input.jump_count + 1
-				end
+				entity:add(Jump())
+				input.jump_canceled = false
+				input.jump_count = input.jump_count + 1
 			end
 
 			if not space then
