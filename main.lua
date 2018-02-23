@@ -64,7 +64,7 @@ function love.load()
 	camera:setWindow(0, 0, 256, 144)
 
 	engine = Engine()
-	local level = Level('assets/levels/level_test.lua')
+	local level = Level('assets/levels/level.lua')
 
 	engine:addEntity(level)
 	engine:addEntity(Player(camera))
