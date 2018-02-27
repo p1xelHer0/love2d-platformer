@@ -1,11 +1,10 @@
-DEBUG = true
+DEBUG = false
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
 	globals = true,
 	debug = DEBUG,
 })
-
 Timer = require('lib.hump.timer')
 vector = require('lib.hump.vector')
 scrale = require('lib.scrale.scrale')
@@ -68,7 +67,7 @@ function love.load()
 
 	engine:addEntity(level)
 	engine:addEntity(Player(camera))
-	engine:addEntity(Box())
+	-- engine:addEntity(Box())
 
 	engine:addSystem(InputSystem())
 	engine:addSystem(PhysicsSystem(level))
@@ -97,6 +96,7 @@ function love.load()
 		engine:addSystem(HitboxRenderSystem(camera))
 		engine:addSystem(DebugTextSystem(camera))
 	end
+
 end
 
 function love.update(dt)
@@ -106,6 +106,8 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.setBackgroundColor(142, 119, 37)
+
 	scrale.drawOnCanvas(true)
 
 	engine:draw()
