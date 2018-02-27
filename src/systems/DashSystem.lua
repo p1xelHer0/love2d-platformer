@@ -6,6 +6,7 @@ end
 
 function DashSystem:update(dt)
 	for _, entity in pairs(self.targets) do
+		local airborne = entity:get('Airborne')
 		local dash = entity:get('Dash')
 		local direction = entity:get('Direction').value
 		local input = entity:get('Input')
@@ -16,7 +17,9 @@ function DashSystem:update(dt)
 		end
 
 		-- Prevent from falling while dashing
-		velocity.y = 0
+		if airborne then
+			velocity.y = 0
+		end
 
 		-- Apply dash force
 		velocity.x = dash.force * direction
