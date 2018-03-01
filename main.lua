@@ -59,7 +59,7 @@ function love.load()
 
 	love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
 
-	camera = gamera.new(0, 0, 1024, 576)
+	camera = gamera.new(0, 0, 1024, 192)
 	camera:setWindow(0, 0, 256, 144)
 
 	engine = Engine()
@@ -106,8 +106,6 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.setBackgroundColor(142, 119, 37)
-
 	scrale.drawOnCanvas(true)
 
 	engine:draw()
