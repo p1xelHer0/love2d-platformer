@@ -1,5 +1,3 @@
-local clamp = require('lib.lume.lume').clamp
-
 local Fall = require('src.components.Fall')
 
 local PhysicsSystem = class('PhysicsSystem', System)
@@ -15,6 +13,7 @@ function PhysicsSystem:update(dt)
     local velocity = body.velocity
 
     -- We are moving downwards, we are falling
+    -- as of now, we might get problems in the future with elevators and such
     if velocity.y > 0 then
       if not entity:get('Fall') then entity:add(Fall()) end
     else
@@ -23,14 +22,14 @@ function PhysicsSystem:update(dt)
 
     -- Entity is affected by gravity constantly
     -- Clamp velocity to prevent infinite fallig speed
-    velocity.y = clamp(
+    velocity.y = lume.clamp(
       velocity.y + body.mass * self.gravity.y * dt,
       -120,
       180
     )
 
     -- Do the same for x
-    velocity.x = clamp(
+    velocity.x = lume.clamp(
       velocity.x + body.mass * self.gravity.x * dt,
       -120,
       180

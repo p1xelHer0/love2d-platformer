@@ -1,4 +1,4 @@
-DEBUG = false
+DEBUG = true
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
@@ -14,7 +14,6 @@ local gamera = require('lib.gamera.gamera')
 
 -- Entities
 local Player = require('src.entities.Player')
-local Box = require('src.entities.Box')
 local Level = require('src.entities.Level')
 
 -- Systems
@@ -25,7 +24,7 @@ local InputSystem = require('src.systems.InputSystem')
 local PhysicsSystem = require('src.systems.PhysicsSystem')
 
 local MovementSystem = require('src.systems.MovementSystem')
-local StandSystem = require('src.systems.StandSystem')
+local GroundedSystem = require('src.systems.GroundedSystem')
 local JumpSystem = require('src.systems.JumpSystem')
 local DashSystem = require('src.systems.DashSystem')
 local CrouchSystem = require('src.systems.CrouchSystem')
@@ -68,13 +67,12 @@ function love.load()
 
   engine:addEntity(level)
   engine:addEntity(Player(camera))
-  -- engine:addEntity(Box())
 
   engine:addSystem(InputSystem())
   engine:addSystem(PhysicsSystem(level))
 
   engine:addSystem(MovementSystem())
-  engine:addSystem(StandSystem())
+  engine:addSystem(GroundedSystem())
   engine:addSystem(JumpSystem())
   engine:addSystem(DashSystem())
   engine:addSystem(CrouchSystem(level))
