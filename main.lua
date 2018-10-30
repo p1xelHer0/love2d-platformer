@@ -8,6 +8,7 @@ HooECS.initialize({
 Timer = require('lib.hump.timer')
 vector = require('lib.hump.vector')
 scrale = require('lib.scrale.scrale')
+lume = require('lib.lume.lume')
 
 local gamera = require('lib.gamera.gamera')
 

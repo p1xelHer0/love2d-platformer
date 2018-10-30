@@ -13,4 +13,5 @@ globals = {
 	"gamera",
 	"scrale",
 	"vector",
+	"lume",
 }
