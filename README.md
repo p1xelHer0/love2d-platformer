@@ -8,12 +8,6 @@ https://www.mapeditor.org/
 
 ## installation
 
-clone the repo, clone all submodules, open `lib/lurker/lurker.lua` and change line 11:
+clone the repo, clone all submodules
 
-from: 
-
-`local lume = require((...):gsub("[^/.\\]+$", "lume"))`
-
-to: 
-
-`local lume = require("lib.lume.lume")`
+run `love .` in the project!
