@@ -2,8 +2,8 @@ DEBUG = false
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
-	globals = true,
-	debug = DEBUG,
+  globals = true,
+  debug = DEBUG,
 })
 Timer = require('lib.hump.timer')
 vector = require('lib.hump.vector')
@@ -50,72 +50,72 @@ local DebugTextSystem = require('src.systems.DebugTextSystem')
 print(love.graphics.getHeight())
 
 function love.load()
-	scrale.init({
-		fillHorizontally = false,
-		fillVertically = false,
-		scaleFilter = "nearest",
-	})
+  scrale.init({
+    fillHorizontally = false,
+    fillVertically = false,
+    scaleFilter = "nearest",
+  })
 
-	love.graphics.setLineStyle('rough')
+  love.graphics.setLineStyle('rough')
 
-	love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
+  love.graphics.setNewFont('assets/fonts/gohufont-11.ttf', 11)
 
-	camera = gamera.new(0, 0, 1024, 192)
-	camera:setWindow(0, 0, 256, 144)
+  camera = gamera.new(0, 0, 1024, 192)
+  camera:setWindow(0, 0, 256, 144)
 
-	engine = Engine()
-	local level = Level('assets/levels/level.lua')
+  engine = Engine()
+  local level = Level('assets/levels/level.lua')
 
-	engine:addEntity(level)
-	engine:addEntity(Player(camera))
-	-- engine:addEntity(Box())
+  engine:addEntity(level)
+  engine:addEntity(Player(camera))
+  -- engine:addEntity(Box())
 
-	engine:addSystem(InputSystem())
-	engine:addSystem(PhysicsSystem(level))
+  engine:addSystem(InputSystem())
+  engine:addSystem(PhysicsSystem(level))
 
-	engine:addSystem(MovementSystem())
-	engine:addSystem(StandSystem())
-	engine:addSystem(JumpSystem())
-	engine:addSystem(DashSystem())
-	engine:addSystem(CrouchSystem(level))
-	engine:addSystem(SlideSystem())
+  engine:addSystem(MovementSystem())
+  engine:addSystem(StandSystem())
+  engine:addSystem(JumpSystem())
+  engine:addSystem(DashSystem())
+  engine:addSystem(CrouchSystem(level))
+  engine:addSystem(SlideSystem())
 
-	engine:addSystem(AnimationSystem())
-	engine:addSystem(SpriteRenderingSystem(camera))
-	engine:addSystem(AnimationRenderingSystem(camera))
+  engine:addSystem(AnimationSystem())
+  engine:addSystem(SpriteRenderingSystem(camera))
+  engine:addSystem(AnimationRenderingSystem(camera))
 
-	engine:addSystem(CollisionSystem(level))
-	engine:addSystem(DeathSystem())
+  engine:addSystem(CollisionSystem(level))
+  engine:addSystem(DeathSystem())
 
-	engine:addSystem(LevelRenderingSystem(camera))
-	engine:addSystem(HealthUISystem(camera))
+  engine:addSystem(LevelRenderingSystem(camera))
+  engine:addSystem(HealthUISystem(camera))
 
-	engine:addSystem(CameraSystem())
+  engine:addSystem(CameraSystem())
 
-	if DEBUG then
-		engine:addSystem(CameraDebugSystem(camera))
-		engine:addSystem(HitboxRenderSystem(camera))
-		engine:addSystem(DebugTextSystem(camera))
-	end
+  if DEBUG then
+    engine:addSystem(CameraDebugSystem(camera))
+    engine:addSystem(HitboxRenderSystem(camera))
+    engine:addSystem(DebugTextSystem(camera))
+  end
 
 end
 
 function love.update(dt)
-	require("lib.lovebird.lovebird").update()
-	require('lib.lurker.lurker').update()
-	engine:update(dt)
+  require("lib.lovebird.lovebird").update()
+  require('lib.lurker.lurker').update()
+  engine:update(dt)
 end
 
 function love.draw()
-	scrale.drawOnCanvas(true)
+  scrale.drawOnCanvas(true)
 
-	engine:draw()
+  engine:draw()
 
-	scrale.draw()
+  scrale.draw()
 end
 
 function love.keypressed(k)
-	if k == "p" then
-		scrale.toggleFullscreen()
-	end
+  if k == "p" then
+    scrale.toggleFullscreen()
+  end
 end

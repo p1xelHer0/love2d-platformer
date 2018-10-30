@@ -1,14 +1,14 @@
 local Jump = Component.create('Jump')
 
 function Jump:initialize()
-	self.time_min = 0.01
-	self.time_max = 0.3
+  self.time_min = 0.01
+  self.time_max = 0.3
 
-	self.cancelable = false
+  self.cancelable = false
 
-	self.force = -120
+  self.force = -120
 
-	self.wall = false
+  self.wall = false
 end
 
 return Jump

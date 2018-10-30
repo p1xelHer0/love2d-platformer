@@ -6,23 +6,23 @@ require('src.components.TileMap')
 require('src.components.Physics')
 
 local BumpWorld, TileMap, Physics = Component.load({
-	'BumpWorld',
-	'TileMap',
-	'Physics',
+  'BumpWorld',
+  'TileMap',
+  'Physics',
 })
 
 local function Level(tileMapPath)
-	local entity = Entity()
+  local entity = Entity()
 
-	local world = bump.newWorld(8)
-	local map = sti(tileMapPath, {'bump'})
-	map:bump_init(world)
+  local world = bump.newWorld(8)
+  local map = sti(tileMapPath, {'bump'})
+  map:bump_init(world)
 
-	entity:add(BumpWorld(world))
-	entity:add(TileMap(map))
-	entity:add(Physics())
+  entity:add(BumpWorld(world))
+  entity:add(TileMap(map))
+  entity:add(Physics())
 
-	return entity
+  return entity
 end
 
 return Level

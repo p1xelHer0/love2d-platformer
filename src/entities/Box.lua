@@ -8,25 +8,25 @@ Body,
 Position,
 SpawnPoint,
 Sprite = Component.load({
-	'Body',
-	'Position',
-	'SpawnPoint',
-	'Sprite',
+  'Body',
+  'Position',
+  'SpawnPoint',
+  'Sprite',
 })
 
 local function Box()
-	local entity = Entity()
+  local entity = Entity()
 
-	local mass = 100
+  local mass = 100
 
-	local image = love.graphics.newImage('assets/sprites/box.png')
+  local image = love.graphics.newImage('assets/sprites/box.png')
 
-	entity:add(Body(size, mass))
-	entity:add(Position())
-	entity:add(SpawnPoint('box'))
-	entity:add(Sprite(image))
+  entity:add(Body(size, mass))
+  entity:add(Position())
+  entity:add(SpawnPoint('box'))
+  entity:add(Sprite(image))
 
-	return entity
+  return entity
 end
 
 return Box
