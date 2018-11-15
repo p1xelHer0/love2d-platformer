@@ -23,16 +23,6 @@ function CameraSystem:update(dt)
 
     local _, _, camera_window_width, camera_window_height = camera:getWindow()
 
-    -- move the camera in the direction the entity is facing
-    -- if direction then
-    --   self.target.x = self.target.x + camera_window_width / 100 * direction.value
-
-    --   -- move the camera even more if the entity is moving
-    --   if movement then
-    --     self.target.x = self.target.x + camera_window_width / 50 * direction.value
-    --   end
-    -- end
-
     if crouch then
       self.target.y = self.target.y - 7
     end

@@ -1,14 +1,15 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.0",
+  tiledversion = "1.2.0",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 128,
   height = 24,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 4,
+  nextlayerid = 6,
+  nextobjectid = 7,
   properties = {},
   tilesets = {
     {
@@ -19,6 +20,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../tiles/tilesets/8px/ruins_tilemap.png",
       imagewidth = 64,
       imageheight = 64,
@@ -155,6 +157,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "Base",
       x = 0,
       y = 0,
@@ -196,7 +199,60 @@ return {
       }
     },
     {
+      type = "objectgroup",
+      id = 5,
+      name = "Mustasch",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 4,
+          name = "mustasch",
+          type = "",
+          shape = "point",
+          x = 104,
+          y = 112,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 5,
+          name = "mustasch",
+          type = "",
+          shape = "point",
+          x = 144,
+          y = 56,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 6,
+          name = "mustasch",
+          type = "",
+          shape = "point",
+          x = 288,
+          y = 88,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
       type = "tilelayer",
+      id = 2,
       name = "Marks",
       x = 0,
       y = 0,
@@ -237,6 +293,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 3,
       name = "Grass",
       x = 0,
       y = 0,
@@ -277,6 +334,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 4,
       name = "Spawn",
       visible = true,
       opacity = 1,

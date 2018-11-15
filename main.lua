@@ -1,4 +1,4 @@
-DEBUG = true
+DEBUG = false
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({
@@ -9,36 +9,33 @@ Timer = require('lib.hump.timer')
 vector = require('lib.hump.vector')
 scrale = require('lib.scrale.scrale')
 lume = require('lib.lume.lume')
+inspect = require('lib.inspect.inspect')
 
 local gamera = require('lib.gamera.gamera')
 
 -- Entities
-local Player = require('src.entities.Player')
+-- local Player = require('src.entities.Player')
 local Level = require('src.entities.Level')
 
 -- Systems
 local CollisionSystem = require('src.systems.CollisionSystem')
 
 local InputSystem = require('src.systems.InputSystem')
-
 local PhysicsSystem = require('src.systems.PhysicsSystem')
-
 local MovementSystem = require('src.systems.MovementSystem')
 local GroundedSystem = require('src.systems.GroundedSystem')
 local JumpSystem = require('src.systems.JumpSystem')
 local DashSystem = require('src.systems.DashSystem')
 local CrouchSystem = require('src.systems.CrouchSystem')
-local SlideSystem = require('src.systems.SlideSystem')
+-- local SlideSystem = require('src.systems.SlideSystem')
 
+local SpawnSystem = require('src.systems.SpawnSystem')
 local DeathSystem = require('src.systems.DeathSystem')
-
 local HealthUISystem = require('src.systems.HealthUISystem')
-
 local AnimationSystem = require('src.systems.AnimationSystem')
 local LevelRenderingSystem = require('src.systems.LevelRenderingSystem')
 local SpriteRenderingSystem = require('src.systems.SpriteRenderingSystem')
 local AnimationRenderingSystem = require('src.systems.AnimationRenderingSystem')
-
 local CameraSystem = require('src.systems.CameraSystem')
 
 -- Debugging systems
@@ -63,10 +60,12 @@ function love.load()
   camera:setWindow(0, 0, 256, 144)
 
   engine = Engine()
+  eventManager = EventManager()
+  eventManager:addListener("Spawn", SpawnSystem, SpawnSystem.fireEvent)
   local level = Level('assets/levels/level.lua')
 
   engine:addEntity(level)
-  engine:addEntity(Player(camera))
+  -- engine:addEntity(Player(camera))
 
   engine:addSystem(InputSystem())
   engine:addSystem(PhysicsSystem(level))
@@ -76,7 +75,7 @@ function love.load()
   engine:addSystem(JumpSystem())
   engine:addSystem(DashSystem())
   engine:addSystem(CrouchSystem(level))
-  engine:addSystem(SlideSystem())
+  -- engine:addSystem(SlideSystem())
 
   engine:addSystem(AnimationSystem())
   engine:addSystem(SpriteRenderingSystem(camera))

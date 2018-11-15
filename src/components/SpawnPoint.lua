@@ -1,8 +1,7 @@
 local SpawnPoint = Component.create('SpawnPoint')
 
-function SpawnPoint:initialize(spawn_point)
-  self.point = spawn_point
-  self.position = { x = 0, y = 0, }
+function SpawnPoint:initialize(x, y)
+  self.coordinates = vector(x or 0, y or 0)
 end
 
 return SpawnPoint

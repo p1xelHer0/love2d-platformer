@@ -31,3 +31,6 @@
 [submodule "lib/scrale"]
 	path = lib/scrale
 	url = https://github.com/MartyMaro/scrale/
+[submodule "lib/inspect.lua"]
+	path = lib/inspect
+	url = https://github.com/kikito/inspect.lua

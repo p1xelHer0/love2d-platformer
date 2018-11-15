@@ -1,5 +1,8 @@
 local Airborne = require('src.components.Airborne')
 local Grounded = require('src.components.Grounded')
+local SpawnSystem = require('src.systems.SpawnSystem')
+local Spawn = require('src.events.Spawn')
+
 
 local CollisionSystem = class('CollisionSystem', System)
 
@@ -7,6 +10,13 @@ function CollisionSystem:initialize(level)
   System.initialize(self)
   self.bumpWorld = level:get('BumpWorld').world
   self.tileMap = level:get('TileMap').map
+
+  -- Objects in Tiled should be spawned
+  for _, object in pairs(self.tileMap.objects) do
+    local position = vector(object.x, object.y)
+    -- fire `Spawn` event
+    eventManager:fireEvent(Spawn(object.name, position.x, position.y))
+  end
 end
 
 function CollisionSystem.kill(entity)
@@ -44,15 +54,15 @@ function CollisionSystem:update(dt)
       if not entity:get('Airborne') then entity:add(Airborne()) end
 
       if entity:get('Grounded') then entity:remove('Grounded') end
-      if entity:get('Slide') then entity:remove('Slide') end
+      -- if entity:get('Slide') then entity:remove('Slide') end
     else
       for i = 1, length do
         local collision = collisions[i]
 
         if collision.other then
           if collision.other.layer then
-            if collision.other.layer.name == 'Spikes' then
-              self.kill(entity)
+            if collision.other.layer.name == 'Mustasch' then
+              print("boop")
             end
           end
         end
@@ -73,13 +83,13 @@ function CollisionSystem:update(dt)
 
         -- We collided on L/R
         -- For wall jumping and sliding
-        if collision.normal.x == 1 or collision.normal.x == -1 then
+        -- if collision.normal.x == 1 or collision.normal.x == -1 then
           -- We are moving downwards and colliding with a wall, we are sliding
-          if entity:get('Fall') then
+          -- if entity:get('Fall') then
             -- TODO
             -- if not entity:get('Slide') then entity:add(Slide()) end
-          end
-        end
+          -- end
+        -- end
       end
     end
   end
@@ -88,20 +98,7 @@ end
 function CollisionSystem:onAddEntity(entity)
   local position = entity:get('Position').coordinates
   local body = entity:get('Body')
-  local spawn_point = entity:get('SpawnPoint')
   local hitbox = body.hitbox
-
-  -- Add the Entity at the spawn_point position if present
-  if spawn_point then
-    local point = spawn_point.point
-    for _, object in pairs(self.tileMap.objects) do
-      if object.name == point then
-        spawn_point.position.x, spawn_point.position.y = object.x, object.y
-        position.x, position.y = object.x, object.y
-        break
-      end
-    end
-  end
 
   self.bumpWorld:add(entity, position.x, position.y, hitbox.w, hitbox.h)
 end

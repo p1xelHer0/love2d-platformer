@@ -10,8 +10,8 @@ function DeathSystem.respawn(entity)
   local spawn_point = entity:get('SpawnPoint')
 
   if spawn_point then
-    position.x = spawn_point.position.x
-    position.y = spawn_point.position.y
+    position.x = spawn_point.coordinates.x
+    position.y = spawn_point.coordinates.y
     health.health = 1
   end
 end

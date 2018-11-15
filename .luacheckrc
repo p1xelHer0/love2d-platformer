@@ -14,4 +14,5 @@ globals = {
   "scrale",
   "vector",
   "lume",
+  "inspect"
 }

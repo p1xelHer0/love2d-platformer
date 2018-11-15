@@ -28,7 +28,7 @@ function DebugTextSystem:draw()
     local fall = entity:get('Fall')
     local jump = entity:get('Jump')
     local dash = entity:get('Dash')
-    local slide = entity:get('Slide')
+    -- local slide = entity:get('Slide')
     local grounded = entity:get('Grounded')
     local crouch = entity:get('Crouch')
     local position = entity:get('Position').coordinates
@@ -41,7 +41,7 @@ function DebugTextSystem:draw()
       jump,
       dash,
       crouch,
-      slide,
+      -- slide,
     }
 
     local render_position = position.y
@@ -65,7 +65,7 @@ function DebugTextSystem:draw()
         print_value('jump', debug_data[4], position.x, render_position + 9 * 3)
         print_value('dash', debug_data[5], position.x, render_position + 9 * 4)
         print_value('crouch', debug_data[6], position.x, render_position + 9 * 5)
-        print_value('slide', debug_data[7], position.x, render_position + 9 * 6)
+        -- print_value('slide', debug_data[7], position.x, render_position + 9 * 6)
       end
     )
 

@@ -32,7 +32,7 @@ SpawnPoint = Component.load({
   'Trail'
 })
 
-local function Player(camera)
+local function Player(x, y, camera)
   local entity = Entity()
 
   local size = { w = 5, h = 14, }
@@ -58,8 +58,8 @@ local function Player(camera)
   entity:add(Health(5))
   entity:add(Input())
   entity:add(Playable())
-  entity:add(Position())
-  entity:add(SpawnPoint('player'))
+  entity:add(Position(x, y))
+  entity:add(SpawnPoint(x, y))
 
   return entity
 end

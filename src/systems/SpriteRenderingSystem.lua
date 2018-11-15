@@ -36,7 +36,6 @@ function SpriteRenderingSystem:draw()
       offset.y,
     }
 
-    -- Render the animations
     self.camera:draw(
       function()
         love.graphics.draw(unpack(draw_properties))
