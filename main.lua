@@ -1,4 +1,4 @@
-DEBUG = false
+DEBUG = true
 
 local HooECS = require('lib.HooECS')
 HooECS.initialize({

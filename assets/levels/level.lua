@@ -207,7 +207,9 @@ return {
       offsetx = 0,
       offsety = 0,
       draworder = "topdown",
-      properties = {},
+      properties = {
+        ["isCoin"] = true
+      },
       objects = {
         {
           id = 4,
@@ -349,7 +351,7 @@ return {
           type = "",
           shape = "point",
           x = 40,
-          y = 128,
+          y = 64,
           width = 0,
           height = 0,
           rotation = 0,

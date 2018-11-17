@@ -1,5 +1,7 @@
 local Airborne = require('src.components.Airborne')
+local Floating = require('src.components.Floating')
 local Grounded = require('src.components.Grounded')
+-- local Slide = require('src.components.Slide')
 local SpawnSystem = require('src.systems.SpawnSystem')
 local Spawn = require('src.events.Spawn')
 
@@ -46,7 +48,7 @@ function CollisionSystem:update(dt)
     -- Move and return collisions
     local collisions, length
     position.x, position.y, collisions, length = self.bumpWorld:move(
-      entity, newPosition.x, newPosition.y
+      entity, newPosition.x, newPosition.y, collisionFilter
     )
 
     -- No collisions, Entity can't be grounded
@@ -58,38 +60,45 @@ function CollisionSystem:update(dt)
     else
       for i = 1, length do
         local collision = collisions[i]
+        local other = collision.other
+        local collide = true
 
-        if collision.other then
-          if collision.other.layer then
-            if collision.other.layer.name == 'Mustasch' then
-              print("boop")
+        if other then
+          if other.components then
+            if other.components.Collectible then
+              -- handle collectibles
+              engine:removeEntity(other)
+              entity:add(Floating())
+              collide = false
             end
           end
         end
 
-        -- We collided on bottom
-        -- Entity is on the ground
-        if collision.normal.y == -1 then
-          if not entity:get('Grounded') then entity:add(Grounded()) end
-          velocity.y = 0
-        end
+        if collide then
+          -- We collided on bottom
+          -- Entity is on the ground
+          if collision.normal.y == -1 then
+            if not entity:get('Grounded') then entity:add(Grounded()) end
+            velocity.y = 0
+          end
 
-        -- We collided on top
-        -- Entity is on the ceiling
-        if collision.normal.y == 1 then
-          if entity:get('Jump') then entity:remove('Jump') end
-          velocity.y = 0
-        end
+          -- We collided on top
+          -- Entity is on the ceiling
+          if collision.normal.y == 1 then
+            if entity:get('Jump') then entity:remove('Jump') end
+            velocity.y = 0
+          end
 
-        -- We collided on L/R
-        -- For wall jumping and sliding
-        -- if collision.normal.x == 1 or collision.normal.x == -1 then
-          -- We are moving downwards and colliding with a wall, we are sliding
-          -- if entity:get('Fall') then
-            -- TODO
-            -- if not entity:get('Slide') then entity:add(Slide()) end
-          -- end
-        -- end
+          -- We collided on L/R
+          -- For wall jumping and sliding
+          if collision.normal.x == 1 or collision.normal.x == -1 then
+            -- We are moving downwards and colliding with a wall, we are sliding
+            if entity:get('Fall') then
+              -- TODO
+              -- if not entity:get('Slide') then entity:add(Slide()) end
+            end
+          end
+        end
       end
     end
   end
@@ -114,4 +123,15 @@ function CollisionSystem.requires()
   }
 end
 
+local collisionFilter = function(item, other)
+  if other.components then
+    if other.components.Collectible then
+      return 'cross'
+    end
+  else
+    return 'slide'
+  end
+end
+
 return CollisionSystem
+

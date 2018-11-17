@@ -28,7 +28,7 @@ local function Mustasch(x,y)
 
   local image = love.graphics.newImage('assets/sprites/Mustasch.png')
 
-  entity:add(Body())
+  entity:add(Body(size, mass))
   entity:add(Direction())
   entity:add(Collectible())
   entity:add(Position(x, y))
