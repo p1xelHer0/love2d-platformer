@@ -1,13 +1,16 @@
 # love2d-platformer
 
-a platformer writte in love2d using Entity Component System (ECS)
+## No longer worked on
+- An experimental platformer written in [LÖVE](https://love2d.org) using a Entity Component System (ECS), for fun
+- It uses [Tiled](https://www.mapeditor.org) to make levels
 
-it uses tiled to make levels
+## Installation
 
-https://www.mapeditor.org/
+- Clone the repo, clone all submodules
+- Run LÖVE in the project
 
-## installation
-
-clone the repo, clone all submodules
-
-run `love .` in the project!
+```zsh
+git clone --recurse-submodules git://github.com/p1xelHer0/love2d-platformer.git
+cd love2d-platformer
+love .
+```
